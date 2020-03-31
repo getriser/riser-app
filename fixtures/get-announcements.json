@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "title": "Update on Ticket Minimums",
+    "content": "Just wanted to send a quick reminder that the ticket minimums for this concert is set to 3 per...",
+    "isRead": false,
+    "numberOfComments": 3,
+    "createdAt": "2019-10-31T23:12:24.241Z",
+    "imageUrl": "https://avatars2.githubusercontent.com/u/3160383?s=460&v=4"
+  },
+  {
+    "id": 2,
+    "title": "Extra Ticket to the MET!",
+    "content": "I have an extra ticket to the MET's production of Carmen. Orchestra seats, and the first one to comment will get them! Let me know, thanks!",
+    "isRead": false,
+    "numberOfComments": 3,
+    "createdAt": "2019-10-31T23:12:24.241Z",
+    "imageUrl": "https://avatars2.githubusercontent.com/u/3160383?s=460&v=4"
+  },
+  {
+    "id": 3,
+    "title": "Lorem ipsum dolor sit amet",
+    "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "isRead": true,
+    "numberOfComments": 1,
+    "createdAt": "2019-10-31T23:12:24.241Z",
+    "imageUrl": "https://avatars2.githubusercontent.com/u/3160383?s=460&v=4"
+  }
+]
