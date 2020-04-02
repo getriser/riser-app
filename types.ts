@@ -1,6 +1,6 @@
 export type AnnouncementsParams = {
   AnnouncementsIndex: undefined;
-  AnnouncementsShow: { id: number };
+  AnnouncementsDetail: { id: number };
 };
 
 export interface IRiserApi {
@@ -15,4 +15,8 @@ export interface Announcement {
   numberOfComments: number;
   createdAt: string;
   imageUrl: string;
+}
+
+export interface IdMapping<T> {
+  [key: number]: T;
 }

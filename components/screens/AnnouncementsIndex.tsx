@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AnnouncementsParams } from '../../types';
-import { Button, SafeAreaView, Text, View } from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  SafeAreaView,
+  Text,
+  View,
+} from 'react-native';
 import PageHeader from '../PageHeader';
+import { RootState } from '../../redux/rootReducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchAnnouncements } from '../../redux/slices/AnnouncementsSlice';
+import AnnouncementRow from '../AnnouncementRow';
 
 type AnnouncementsIndexNavigationProps = StackNavigationProp<
   AnnouncementsParams,
@@ -16,15 +26,36 @@ interface AnnouncementsIndexProps {
 const AnnouncementsIndex: React.FC<AnnouncementsIndexProps> = ({
   navigation,
 }) => {
+  const dispatch = useDispatch();
+
+  const { announcements, isLoading, fetchAnnouncementsError } = useSelector(
+    (state: RootState) => state.announcements,
+  );
+
+  useEffect(() => {
+    if (!announcements) {
+      dispatch(fetchAnnouncements());
+    }
+  }, [dispatch, announcements]);
+
   return (
     <SafeAreaView>
       <PageHeader text={'Announcements'} />
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Announcements screen</Text>
-        <Button
-          title="Go to Details"
-          onPress={() => navigation.navigate('AnnouncementsShow', { id: 1 })}
-        />
+      <View>
+        {isLoading && !announcements ? (
+          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+            <ActivityIndicator />
+          </View>
+        ) : (
+          <FlatList
+            data={announcements}
+            refreshing={isLoading}
+            onRefresh={() => dispatch(fetchAnnouncements())}
+            keyExtractor={(item, index) => item.id.toString()}
+            ListEmptyComponent={() => <Text>There are no announcements.</Text>}
+            renderItem={({ item }) => <AnnouncementRow announcement={item} />}
+          />
+        )}
       </View>
     </SafeAreaView>
   );

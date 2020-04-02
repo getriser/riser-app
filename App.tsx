@@ -4,26 +4,15 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import AnnouncementsIndex from './components/screens/AnnouncementsIndex';
-import AnnouncementsShow from './components/screens/AnnouncementsShow';
+import AnnouncementsDetail from './components/screens/AnnouncementsDetail';
 import { AnnouncementsParams } from './types';
-import PageHeader from './components/PageHeader';
+import { Provider } from 'react-redux';
+import store from './redux/store';
 
 function DetailsScreen() {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>Details!</Text>
-    </View>
-  );
-}
-
-function AnnouncementsScreen({ navigation }) {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Announcements screen</Text>
-      <Button
-        title="Go to Details"
-        onPress={() => navigation.navigate('Details')}
-      />
     </View>
   );
 }
@@ -53,8 +42,8 @@ function AnnouncementsStackScreen() {
         }}
       />
       <AnnouncementsStack.Screen
-        name="AnnouncementsShow"
-        component={AnnouncementsShow}
+        name="AnnouncementsDetail"
+        component={AnnouncementsDetail}
       />
     </AnnouncementsStack.Navigator>
   );
@@ -75,11 +64,16 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Tab.Navigator>
-        <Tab.Screen name="Announcements" component={AnnouncementsStackScreen} />
-        <Tab.Screen name="Settings" component={SettingsStackScreen} />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Tab.Navigator>
+          <Tab.Screen
+            name="Announcements"
+            component={AnnouncementsStackScreen}
+          />
+          <Tab.Screen name="Settings" component={SettingsStackScreen} />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }

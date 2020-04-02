@@ -4,16 +4,16 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { AnnouncementsParams } from '../../types';
 import PageHeader from '../PageHeader';
 
-type AnnouncementsShowNavigationProps = StackNavigationProp<
+type AnnouncementsDetailNavigationProps = StackNavigationProp<
   AnnouncementsParams,
-  'AnnouncementsShow'
+  'AnnouncementsDetail'
 >;
 
-interface AnnouncementsShowProps {
-  navigation: AnnouncementsShowNavigationProps;
+interface AnnouncementsDetailProps {
+  navigation: AnnouncementsDetailNavigationProps;
 }
 
-const AnnouncementsShow: React.FC<AnnouncementsShowProps> = ({
+const AnnouncementsDetail: React.FC<AnnouncementsDetailProps> = ({
   navigation,
 }) => {
   return (
@@ -27,4 +27,4 @@ const AnnouncementsShow: React.FC<AnnouncementsShowProps> = ({
   );
 };
 
-export default AnnouncementsShow;
+export default AnnouncementsDetail;
