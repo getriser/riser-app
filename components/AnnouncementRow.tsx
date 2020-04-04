@@ -7,13 +7,13 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import { Announcement } from '../types';
+import { AnnouncementLite } from '../types';
 import { getDateAgoString } from '../utils/DateUtils';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
 export interface AnnouncementRowProps {
-  announcement: Announcement;
+  announcement: AnnouncementLite;
 }
 
 const BOX_STYLE: ViewStyle = {
@@ -98,7 +98,7 @@ const AnnouncementRow: React.FC<AnnouncementRowProps> = ({ announcement }) => {
         </Text>
         <Image
           style={IMAGE_STYLE}
-          source={{ uri: announcement.imageUrl, width: 35, height: 35 }}
+          source={{ uri: announcement.author.avatarUrl, width: 35, height: 35 }}
         />
       </View>
     </View>

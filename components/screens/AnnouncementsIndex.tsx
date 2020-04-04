@@ -6,6 +6,7 @@ import {
   FlatList,
   SafeAreaView,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import PageHeader from '../PageHeader';
@@ -52,8 +53,24 @@ const AnnouncementsIndex: React.FC<AnnouncementsIndexProps> = ({
             refreshing={isLoading}
             onRefresh={() => dispatch(fetchAnnouncements())}
             keyExtractor={(item, index) => item.id.toString()}
-            ListEmptyComponent={() => <Text>There are no announcements.</Text>}
-            renderItem={({ item }) => <AnnouncementRow announcement={item} />}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('AnnouncementsDetail', { id: item.id })
+                }>
+                <AnnouncementRow announcement={item} />
+              </TouchableOpacity>
+            )}
+            ListEmptyComponent={() => (
+              <>
+                <Text style={{ textAlign: 'center', marginTop: 20 }}>
+                  There are no announcements.
+                </Text>
+                <Text style={{ textAlign: 'center', marginTop: 10 }}>
+                  Click on the top right icon to send one to your group!
+                </Text>
+              </>
+            )}
           />
         )}
       </View>

@@ -6,7 +6,10 @@
     "isRead": false,
     "numberOfComments": 3,
     "createdAt": "2019-10-31T23:12:24.241Z",
-    "imageUrl": "https://avatars2.githubusercontent.com/u/3160383?s=460&v=4"
+    "author": {
+      "name": "Michael Squitieri",
+      "avatarUrl": "https://avatars2.githubusercontent.com/u/3160383?s=460&v=4"
+    }
   },
   {
     "id": 2,
@@ -15,7 +18,10 @@
     "isRead": false,
     "numberOfComments": 3,
     "createdAt": "2019-10-31T23:12:24.241Z",
-    "imageUrl": "https://avatars2.githubusercontent.com/u/3160383?s=460&v=4"
+    "author": {
+      "name": "Michael Squitieri",
+      "avatarUrl": "https://avatars2.githubusercontent.com/u/3160383?s=460&v=4"
+    }
   },
   {
     "id": 3,
@@ -24,6 +30,9 @@
     "isRead": true,
     "numberOfComments": 1,
     "createdAt": "2019-10-31T23:12:24.241Z",
-    "imageUrl": "https://avatars2.githubusercontent.com/u/3160383?s=460&v=4"
+    "author": {
+      "name": "Michael Squitieri",
+      "avatarUrl": "https://avatars2.githubusercontent.com/u/3160383?s=460&v=4"
+    }
   }
 ]

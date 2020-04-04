@@ -1,0 +1,36 @@
+{
+  "id": 3,
+  "title": "Update on Ticket Minimums",
+  "content": "Hello, friends!\n\nPopping by on Thanksgiving Eve to confirm that the holiday party will stay as scheduled on Monday, December 2, at 7pm.\n\nBecause it's cool to be meta, we'll be gathering at B Flat Bar.\n\nB Flat Bar in Tribeca for food, debauchery, and libations!\n\nBring your spouses, paramours, partners, and friends—all are welcome!\n\nDRESS CODE: HOLIDAZZLE\n",
+  "isRead": false,
+  "numberOfComments": 1,
+  "createdAt": "2019-10-31T23:12:24.241Z",
+  "author": {
+    "name": "Michael Squitieri",
+    "avatarUrl": "https://avatars2.githubusercontent.com/u/3160383?s=460&v=4"
+  },
+
+  "reactions": [
+    {
+      "emoji": "✅",
+      "count": 5,
+      "isChecked": true
+    },
+    {
+      "emoji": "\uD83D\uDE02",
+      "count": 15,
+      "isChecked": false
+    }
+  ],
+
+  "comments": [
+    {
+      "text": "Hey, I'm looking for something here, what do you think?",
+      "createdAt": "2019-10-31T23:12:24.241Z",
+      "author": {
+        "name": "Michael Squitieri",
+        "avatarUrl": "https://avatars2.githubusercontent.com/u/3160383?s=460&v=4"
+      }
+    }
+  ]
+}

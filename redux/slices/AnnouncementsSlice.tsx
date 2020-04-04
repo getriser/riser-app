@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Announcement, IdMapping } from '../../types';
+import { Announcement, AnnouncementLite, IdMapping } from '../../types';
 import { AppThunk } from '../store';
 import RiserApi from '../../utils/MockRiserApi';
 import Logger from '../../utils/Logger';
 
 interface AnnouncementsState {
   announcementsById: IdMapping<Announcement>;
-  announcements: Announcement[] | null;
+  announcements: AnnouncementLite[] | null;
   isLoading: boolean;
   fetchAnnouncementsError?: string;
 }
@@ -33,25 +33,26 @@ const announcementsSlice = createSlice({
       state.isLoading = false;
     },
 
-    setAnnouncements(state, action: PayloadAction<Announcement[]>) {
+    setAnnouncements(state, action: PayloadAction<AnnouncementLite[]>) {
       const announcements = action.payload;
       state.announcements = announcements;
-      state.announcementsById = {};
+    },
 
+    addToAnnouncementsById(state, action: PayloadAction<Announcement[]>) {
+      const announcements = action.payload;
       announcements.forEach((announcement: Announcement) => {
         state.announcementsById[announcement.id] = announcement;
       });
     },
 
-    addAnnouncements(state, action: PayloadAction<Announcement[]>) {
+    addAnnouncements(state, action: PayloadAction<AnnouncementLite[]>) {
       const announcements = action.payload;
       if (state.announcements === null) {
         state.announcements = [];
       }
 
-      announcements.forEach((announcement: Announcement) => {
+      announcements.forEach((announcement: AnnouncementLite) => {
         state.announcements!.push(announcement);
-        state.announcementsById[announcement.id] = announcement;
       });
     },
   },
@@ -62,6 +63,7 @@ export const {
   errorFetchAnnouncements,
   endFetchAnnouncements,
   addAnnouncements,
+  addToAnnouncementsById,
   setAnnouncements,
 } = announcementsSlice.actions;
 
@@ -76,6 +78,24 @@ export const fetchAnnouncements = (): AppThunk => async (dispatch) => {
     dispatch(setAnnouncements(announcements));
   } catch (e) {
     Logger.error('Error fetching announcements:', e);
+
+    dispatch(errorFetchAnnouncements());
+  } finally {
+    dispatch(endFetchAnnouncements());
+  }
+};
+
+export const fetchAnnouncement = (id: number): AppThunk => async (dispatch) => {
+  dispatch(startFetchAnnouncements());
+
+  try {
+    const api = new RiserApi();
+
+    const announcement = await api.getAnnouncement(id);
+
+    dispatch(addToAnnouncementsById([announcement]));
+  } catch (e) {
+    Logger.error('Error fetching announcement:', e);
 
     dispatch(errorFetchAnnouncements());
   } finally {

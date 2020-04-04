@@ -8,6 +8,7 @@ import AnnouncementsDetail from './components/screens/AnnouncementsDetail';
 import { AnnouncementsParams } from './types';
 import { Provider } from 'react-redux';
 import store from './redux/store';
+import colors from './styles/colors';
 
 function DetailsScreen() {
   return (
@@ -44,6 +45,17 @@ function AnnouncementsStackScreen() {
       <AnnouncementsStack.Screen
         name="AnnouncementsDetail"
         component={AnnouncementsDetail}
+        options={{
+          headerTitle: '',
+          headerBackTitle: '',
+          headerTruncatedBackTitle: '',
+          headerTransparent: true,
+          headerStyle: {
+            backgroundColor: colors.primary,
+            borderBottomColor: colors.primary,
+            borderBottomWidth: 0,
+          },
+        }}
       />
     </AnnouncementsStack.Navigator>
   );
