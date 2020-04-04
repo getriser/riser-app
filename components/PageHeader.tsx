@@ -1,11 +1,13 @@
 import * as React from 'react';
 import { Text, TextStyle, View, ViewStyle } from 'react-native';
+import colors from '../styles/colors';
+import fonts from '../styles/fonts';
 
 const TEXT_STYLE: TextStyle = {
-  color: '#000000',
+  color: colors.titleBlack,
   fontSize: 40,
   fontWeight: 'bold',
-  fontFamily: 'System',
+  fontFamily: fonts.default,
   paddingLeft: 20,
   paddingTop: 10,
   marginBottom: 10,

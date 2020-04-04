@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import { Announcement } from '../types';
 import { getDateAgoString } from '../utils/DateUtils';
+import colors from '../styles/colors';
+import fonts from '../styles/fonts';
 
 export interface AnnouncementRowProps {
   announcement: Announcement;
@@ -25,12 +27,14 @@ const BOX_STYLE: ViewStyle = {
 
 const IMAGE_STYLE: ImageStyle = {
   borderRadius: 100,
+  alignSelf: 'flex-end',
+  marginBottom: 10,
 };
 
 const TITLE_STYLE: TextStyle = {
-  color: '#000000',
+  color: colors.titleBlack,
   fontSize: 16,
-  fontFamily: 'System',
+  fontFamily: fonts.default,
 };
 
 const DOT_HOLDER_STYLE: TextStyle = {
@@ -41,21 +45,37 @@ const DOT_HOLDER_STYLE: TextStyle = {
 };
 
 const DOT_STYLE: TextStyle = {
-  color: '#0ce5d9',
+  color: colors.primary,
   fontSize: 50,
 };
 
 const CONTENT_STYLE: TextStyle = {
-  color: '#979797',
+  color: colors.subtitleGray,
   fontSize: 14,
-  fontFamily: 'System',
+  fontFamily: fonts.default,
   marginTop: 5,
 };
 
 const CREATED_AT_STYLE: TextStyle = {
-  color: '#000000',
-  fontFamily: 'System',
+  flex: 1,
+  color: colors.subtitleGray,
+  fontFamily: fonts.default,
   fontSize: 12,
+  marginTop: 2,
+};
+
+const CREATED_AT_IMAGE_HOLDER_STYLE: ViewStyle = {
+  flexDirection: 'column',
+  flex: 1,
+  alignSelf: 'flex-start',
+  justifyContent: 'space-between',
+};
+
+const TITLE_CONTENT_HOLDER: ViewStyle = {
+  marginLeft: 10,
+  flex: 7,
+  flexDirection: 'column',
+  justifyContent: 'flex-start',
 };
 
 const AnnouncementRow: React.FC<AnnouncementRowProps> = ({ announcement }) => {
@@ -65,24 +85,14 @@ const AnnouncementRow: React.FC<AnnouncementRowProps> = ({ announcement }) => {
         {!announcement.isRead ? <Text style={DOT_STYLE}>•</Text> : null}
       </View>
 
-      <View
-        style={{
-          marginLeft: 10,
-          flex: 7,
-          flexDirection: 'column',
-          justifyContent: 'flex-start',
-        }}>
+      <View style={TITLE_CONTENT_HOLDER}>
         <Text style={TITLE_STYLE}>{announcement.title}</Text>
         <Text style={CONTENT_STYLE} numberOfLines={3}>
           {announcement.content}
         </Text>
       </View>
 
-      <View
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-        }}>
+      <View style={CREATED_AT_IMAGE_HOLDER_STYLE}>
         <Text style={CREATED_AT_STYLE}>
           {getDateAgoString(announcement.createdAt)}
         </Text>
