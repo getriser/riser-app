@@ -34,28 +34,14 @@ const AnnouncementsStack = createStackNavigator<AnnouncementsParams>();
 
 function AnnouncementsStackScreen() {
   return (
-    <AnnouncementsStack.Navigator>
+    <AnnouncementsStack.Navigator screenOptions={{ headerShown: false }}>
       <AnnouncementsStack.Screen
         name="AnnouncementsIndex"
         component={AnnouncementsIndex}
-        options={{
-          headerShown: false,
-        }}
       />
       <AnnouncementsStack.Screen
         name="AnnouncementsDetail"
         component={AnnouncementsDetail}
-        options={{
-          headerTitle: '',
-          headerBackTitle: '',
-          headerTruncatedBackTitle: '',
-          headerTransparent: true,
-          headerStyle: {
-            backgroundColor: colors.primary,
-            borderBottomColor: colors.primary,
-            borderBottomWidth: 0,
-          },
-        }}
       />
     </AnnouncementsStack.Navigator>
   );

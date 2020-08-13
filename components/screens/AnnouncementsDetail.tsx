@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import {
   ActivityIndicator,
   Button,
+  Image,
   SafeAreaView,
   Text,
   TouchableHighlight,
@@ -13,9 +14,11 @@ import { AnnouncementsParams } from '../../types';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/rootReducer';
 import { fetchAnnouncement } from '../../redux/slices/AnnouncementsSlice';
-import Logger from '../../utils/Logger';
 import colors from '../../styles/colors';
 import fonts from '../../styles/fonts';
+import Loading from '../Loading';
+import BackButton from '../BackButton';
+import moment from 'moment';
 
 type AnnouncementsDetailNavigationProps = StackNavigationProp<
   AnnouncementsParams,
@@ -51,41 +54,83 @@ const AnnouncementsDetail: React.FC<AnnouncementsDetailProps> = ({
     }
   }, [announcement, dispatch]);
 
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (!announcement) {
+    return null;
+  }
+
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <View
         style={{
           backgroundColor: colors.primary,
         }}>
         <SafeAreaView>
-          {isLoading ? (
-            <ActivityIndicator />
-          ) : !!announcement ? (
-            <View>
+          <BackButton />
+
+          <View>
+            <View
+              style={{
+                backgroundColor: colors.primary,
+                paddingBottom: 70,
+              }}>
               <View
                 style={{
-                  backgroundColor: colors.primary,
-                  paddingBottom: 100,
-                  marginTop: 50,
+                  marginHorizontal: 40,
                 }}>
-                <View
+                <Text
                   style={{
-                    marginHorizontal: 50,
+                    color: colors.white,
+                    fontFamily: fonts.default,
+                    fontWeight: '600',
+                    fontSize: 33,
                   }}>
-                  <Text
-                    style={{
-                      color: colors.white,
-                      fontFamily: fonts.default,
-                      fontWeight: '600',
-                      fontSize: 33,
-                    }}>
-                    {announcement.title}
-                  </Text>
+                  {announcement.title}
+                </Text>
+                <View style={{ flexDirection: 'row', marginTop: 10 }}>
+                  <Image
+                    style={{ borderRadius: 100, width: 35, marginRight: 10 }}
+                    source={{ uri: announcement.author.avatarUrl }}
+                  />
+                  <View>
+                    <Text style={{ color: '#fff', fontWeight: 'bold' }}>
+                      {announcement.author.name}
+                    </Text>
+                    <Text style={{ color: '#fff' }}>
+                      {moment(announcement.createdAt).format(
+                        'MMM Do, YYYY • h:mm A',
+                      )}
+                    </Text>
+                  </View>
                 </View>
               </View>
             </View>
-          ) : null}
+          </View>
         </SafeAreaView>
+      </View>
+      <View
+        style={{
+          borderTopRightRadius: 40,
+          borderTopLeftRadius: 40,
+          backgroundColor: '#fff',
+          position: 'relative',
+          top: -30,
+          zIndex: 100,
+          elevation: 100,
+          paddingHorizontal: 40,
+          flex: 1,
+        }}>
+        <View
+          style={{
+            marginVertical: 40,
+            borderBottomWidth: 1,
+            borderBottomColor: '#eaeaea',
+          }}>
+          <Text>{announcement.content}</Text>
+        </View>
       </View>
     </View>
   );

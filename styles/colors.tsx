@@ -7,7 +7,7 @@ interface Colors {
 }
 
 const colors: Colors = {
-  primary: '#0ce5d9',
+  primary: '#F15F5F',
   white: '#ffffff',
   headerBlack: '#1d1d1d',
   titleBlack: '#1d1d1d',
