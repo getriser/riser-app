@@ -1,16 +1,8 @@
 import React, { useEffect } from 'react';
-import {
-  ActivityIndicator,
-  Button,
-  Image,
-  SafeAreaView,
-  Text,
-  TouchableHighlight,
-  View,
-} from 'react-native';
+import { Image, SafeAreaView, Text, View } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { AnnouncementsParams } from '../../types';
+import { AnnouncementsParams, Reaction } from '../../types';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/rootReducer';
 import { fetchAnnouncement } from '../../redux/slices/AnnouncementsSlice';
@@ -19,6 +11,7 @@ import fonts from '../../styles/fonts';
 import Loading from '../Loading';
 import BackButton from '../BackButton';
 import moment from 'moment';
+import EmojiPill from '../EmojiPill';
 
 type AnnouncementsDetailNavigationProps = StackNavigationProp<
   AnnouncementsParams,
@@ -125,11 +118,21 @@ const AnnouncementsDetail: React.FC<AnnouncementsDetailProps> = ({
         }}>
         <View
           style={{
-            marginVertical: 40,
+            marginTop: 40,
+            marginBottom: 20,
             borderBottomWidth: 1,
             borderBottomColor: '#eaeaea',
           }}>
           <Text>{announcement.content}</Text>
+        </View>
+        <View style={{ flexDirection: 'row' }}>
+          {announcement.reactions.map((reaction: Reaction) => (
+            <EmojiPill
+              reaction={reaction}
+              onPress={() => console.log('press!')}
+              onLongPress={() => console.log('long press!')}
+            />
+          ))}
         </View>
       </View>
     </View>
