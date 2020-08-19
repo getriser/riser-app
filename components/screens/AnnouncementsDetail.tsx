@@ -5,7 +5,11 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { AnnouncementsParams, Reaction } from '../../types';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/rootReducer';
-import { fetchAnnouncement } from '../../redux/slices/AnnouncementsSlice';
+import {
+  fetchAnnouncement,
+  addReaction,
+  removeReaction,
+} from '../../redux/slices/AnnouncementsSlice';
 import colors from '../../styles/colors';
 import fonts from '../../styles/fonts';
 import Loading from '../Loading';
@@ -126,13 +130,32 @@ const AnnouncementsDetail: React.FC<AnnouncementsDetailProps> = ({
           <Text>{announcement.content}</Text>
         </View>
         <View style={{ flexDirection: 'row' }}>
-          {announcement.reactions.map((reaction: Reaction) => (
-            <EmojiPill
-              reaction={reaction}
-              onPress={() => console.log('press!')}
-              onLongPress={() => console.log('long press!')}
-            />
-          ))}
+          {announcement.reactions
+            .slice()
+            .sort((a, b) => a.count - b.count)
+            .map((reaction: Reaction) => (
+              <EmojiPill
+                reaction={reaction}
+                onPress={() => {
+                  if (reaction.isChecked) {
+                    dispatch(
+                      removeReaction({
+                        announcement,
+                        reaction,
+                      }),
+                    );
+                  } else {
+                    dispatch(
+                      addReaction({
+                        announcement,
+                        reaction,
+                      }),
+                    );
+                  }
+                }}
+                onLongPress={() => console.log('long press!')}
+              />
+            ))}
         </View>
       </View>
     </View>

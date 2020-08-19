@@ -1,5 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Announcement, AnnouncementLite, IdMapping } from '../../types';
+import {
+  Announcement,
+  AnnouncementLite,
+  IdMapping,
+  Reaction,
+} from '../../types';
 import { AppThunk } from '../store';
 import RiserApi from '../../utils/MockRiserApi';
 import Logger from '../../utils/Logger';
@@ -17,6 +22,11 @@ const initialState: AnnouncementsState = {
   isLoading: false,
 };
 
+interface ReactionPayload {
+  announcement: Announcement;
+  reaction: Reaction;
+}
+
 const announcementsSlice = createSlice({
   name: 'announcements',
   initialState,
@@ -25,10 +35,64 @@ const announcementsSlice = createSlice({
       state.fetchAnnouncementsError = undefined;
       state.isLoading = true;
     },
+
+    addReaction(state, action: PayloadAction<ReactionPayload>) {
+      const announcement: Announcement =
+        state.announcementsById[action.payload.announcement.id];
+
+      let reaction: Reaction = announcement.reactions.filter(
+        (r) => r.emoji === action.payload.reaction.emoji,
+      )[0];
+
+      if (reaction) {
+        reaction = {
+          ...reaction,
+          isChecked: true,
+          count: reaction.count + 1,
+        };
+      } else {
+        reaction = {
+          ...action.payload.reaction,
+          isChecked: true,
+          count: 1,
+        };
+      }
+
+      announcement.reactions = [
+        ...announcement.reactions.filter((r) => r.emoji !== reaction.emoji),
+        reaction,
+      ];
+
+      state.announcementsById[announcement.id] = announcement;
+    },
+
+    removeReaction(state, action: PayloadAction<ReactionPayload>) {
+      const announcement: Announcement =
+        state.announcementsById[action.payload.announcement.id];
+
+      let reaction: Reaction = announcement.reactions.filter(
+        (r) => r.emoji === action.payload.reaction.emoji,
+      )[0];
+
+      reaction = {
+        ...reaction,
+        isChecked: false,
+        count: reaction.count - 1,
+      };
+
+      announcement.reactions = [
+        ...announcement.reactions.filter((r) => r.emoji !== reaction.emoji),
+        reaction,
+      ];
+
+      state.announcementsById[announcement.id] = announcement;
+    },
+
     errorFetchAnnouncements(state, action: PayloadAction) {
       state.fetchAnnouncementsError =
         'It seems like something went wrong. Please try again in a few minutes.';
     },
+
     endFetchAnnouncements(state, action: PayloadAction) {
       state.isLoading = false;
     },
@@ -63,6 +127,8 @@ export const {
   errorFetchAnnouncements,
   endFetchAnnouncements,
   addAnnouncements,
+  addReaction,
+  removeReaction,
   addToAnnouncementsById,
   setAnnouncements,
 } = announcementsSlice.actions;
