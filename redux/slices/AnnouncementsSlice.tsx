@@ -169,4 +169,34 @@ export const fetchAnnouncement = (id: number): AppThunk => async (dispatch) => {
   }
 };
 
+export const addReactionToAnnouncement = (
+  announcement: Announcement,
+  reaction: Reaction,
+): AppThunk => async (dispatch) => {
+  try {
+    const api = new RiserApi();
+
+    dispatch(addReaction({ announcement, reaction }));
+
+    api.addReactionToAnnouncement(announcement, reaction);
+  } catch (e) {
+    Logger.error('Error thrown while trying to add a reaction.');
+  }
+};
+
+export const removeReactionFromAnnouncement = (
+  announcement: Announcement,
+  reaction: Reaction,
+): AppThunk => async (dispatch) => {
+  try {
+    const api = new RiserApi();
+
+    dispatch(removeReaction({ announcement, reaction }));
+
+    api.removeReactionFromAnnouncement(announcement, reaction);
+  } catch (e) {
+    Logger.error('Error thrown while trying to add a reaction.');
+  }
+};
+
 export default announcementsSlice.reducer;

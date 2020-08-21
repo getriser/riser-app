@@ -7,8 +7,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/rootReducer';
 import {
   fetchAnnouncement,
-  addReaction,
-  removeReaction,
+  removeReactionFromAnnouncement,
+  addReactionToAnnouncement,
 } from '../../redux/slices/AnnouncementsSlice';
 import colors from '../../styles/colors';
 import fonts from '../../styles/fonts';
@@ -139,18 +139,10 @@ const AnnouncementsDetail: React.FC<AnnouncementsDetailProps> = ({
                 onPress={() => {
                   if (reaction.isChecked) {
                     dispatch(
-                      removeReaction({
-                        announcement,
-                        reaction,
-                      }),
+                      removeReactionFromAnnouncement(announcement, reaction),
                     );
                   } else {
-                    dispatch(
-                      addReaction({
-                        announcement,
-                        reaction,
-                      }),
-                    );
+                    dispatch(addReactionToAnnouncement(announcement, reaction));
                   }
                 }}
                 onLongPress={() => console.log('long press!')}

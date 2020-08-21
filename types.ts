@@ -6,6 +6,20 @@ export type AnnouncementsParams = {
 export interface IRiserApi {
   getAnnouncements(): Promise<AnnouncementLite[]>;
   getAnnouncement(id: number): Promise<Announcement>;
+
+  addReactionToAnnouncement(
+    announcement: Announcement,
+    reaction: Reaction,
+  ): Promise<Reaction>;
+
+  removeReactionFromAnnouncement(
+    announcement: Announcement,
+    reaction: Reaction,
+  ): Promise<SuccessMessage>;
+}
+
+export interface SuccessMessage {
+  message: string;
 }
 
 export interface AnnouncementLite {
