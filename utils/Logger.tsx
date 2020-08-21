@@ -1,4 +1,8 @@
 export default class Logger {
+  static debug(...messages: any[]): void {
+    this.sendLog('log', ...messages);
+  }
+
   static log(...messages: any[]): void {
     this.sendLog('log', ...messages);
   }

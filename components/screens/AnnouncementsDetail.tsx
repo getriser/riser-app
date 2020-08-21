@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Image, SafeAreaView, Text, View } from 'react-native';
+import { Image, SafeAreaView, ScrollView, Text, View } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AnnouncementsParams, Reaction } from '../../types';
@@ -14,8 +14,10 @@ import colors from '../../styles/colors';
 import fonts from '../../styles/fonts';
 import Loading from '../Loading';
 import BackButton from '../BackButton';
-import moment from 'moment';
 import EmojiPill from '../EmojiPill';
+import AnnouncementDetailHeader from '../AnnouncementDetailHeader';
+import CommentRow from '../CommentRow';
+import Logger from '../../utils/Logger';
 
 type AnnouncementsDetailNavigationProps = StackNavigationProp<
   AnnouncementsParams,
@@ -59,6 +61,18 @@ const AnnouncementsDetail: React.FC<AnnouncementsDetailProps> = ({
     return null;
   }
 
+  const onEmojiClick = (reaction: Reaction) => {
+    if (reaction.isChecked) {
+      dispatch(removeReactionFromAnnouncement(announcement, reaction));
+    } else {
+      dispatch(addReactionToAnnouncement(announcement, reaction));
+    }
+  };
+
+  const onEmojiLongPress = (reaction: Reaction) => {
+    Logger.debug('onEmojiLongPress...');
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <View
@@ -74,41 +88,12 @@ const AnnouncementsDetail: React.FC<AnnouncementsDetailProps> = ({
                 backgroundColor: colors.primary,
                 paddingBottom: 70,
               }}>
-              <View
-                style={{
-                  marginHorizontal: 40,
-                }}>
-                <Text
-                  style={{
-                    color: colors.white,
-                    fontFamily: fonts.default,
-                    fontWeight: '600',
-                    fontSize: 33,
-                  }}>
-                  {announcement.title}
-                </Text>
-                <View style={{ flexDirection: 'row', marginTop: 10 }}>
-                  <Image
-                    style={{ borderRadius: 100, width: 35, marginRight: 10 }}
-                    source={{ uri: announcement.author.avatarUrl }}
-                  />
-                  <View>
-                    <Text style={{ color: '#fff', fontWeight: 'bold' }}>
-                      {announcement.author.name}
-                    </Text>
-                    <Text style={{ color: '#fff' }}>
-                      {moment(announcement.createdAt).format(
-                        'MMM Do, YYYY • h:mm A',
-                      )}
-                    </Text>
-                  </View>
-                </View>
-              </View>
+              <AnnouncementDetailHeader announcement={announcement} />
             </View>
           </View>
         </SafeAreaView>
       </View>
-      <View
+      <ScrollView
         style={{
           borderTopRightRadius: 40,
           borderTopLeftRadius: 40,
@@ -117,39 +102,56 @@ const AnnouncementsDetail: React.FC<AnnouncementsDetailProps> = ({
           top: -30,
           zIndex: 100,
           elevation: 100,
-          paddingHorizontal: 40,
           flex: 1,
         }}>
         <View
           style={{
-            marginTop: 40,
-            marginBottom: 20,
-            borderBottomWidth: 1,
-            borderBottomColor: '#eaeaea',
+            paddingHorizontal: 40,
           }}>
-          <Text>{announcement.content}</Text>
+          <View
+            style={{
+              marginTop: 40,
+              marginBottom: 20,
+              borderBottomWidth: 1,
+              borderBottomColor: '#eaeaea',
+            }}>
+            <Text>{announcement.content}</Text>
+          </View>
+          <View style={{ flexDirection: 'row' }}>
+            {announcement.reactions
+              .slice()
+              .sort((a, b) => a.count - b.count)
+              .map((reaction: Reaction) => (
+                <EmojiPill
+                  reaction={reaction}
+                  onPress={() => onEmojiClick(reaction)}
+                  onLongPress={() => onEmojiLongPress(reaction)}
+                />
+              ))}
+          </View>
         </View>
-        <View style={{ flexDirection: 'row' }}>
-          {announcement.reactions
-            .slice()
-            .sort((a, b) => a.count - b.count)
-            .map((reaction: Reaction) => (
-              <EmojiPill
-                reaction={reaction}
-                onPress={() => {
-                  if (reaction.isChecked) {
-                    dispatch(
-                      removeReactionFromAnnouncement(announcement, reaction),
-                    );
-                  } else {
-                    dispatch(addReactionToAnnouncement(announcement, reaction));
-                  }
-                }}
-                onLongPress={() => console.log('long press!')}
-              />
-            ))}
+
+        <View>
+          <View
+            style={{
+              marginTop: 20,
+              marginHorizontal: 10,
+            }}>
+            <Text
+              style={{
+                fontWeight: 'bold',
+                fontSize: 16,
+                marginBottom: 10,
+              }}>
+              Comments
+            </Text>
+          </View>
+
+          {announcement.comments.map((comment) => (
+            <CommentRow comment={comment} />
+          ))}
         </View>
-      </View>
+      </ScrollView>
     </View>
   );
 };
