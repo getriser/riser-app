@@ -79,7 +79,11 @@ const AnnouncementsDetail: React.FC<AnnouncementsDetailProps> = ({
         style={{
           backgroundColor: colors.primary,
         }}>
-        <SafeAreaView>
+        <SafeAreaView
+          style={{
+            position: 'relative',
+            top: 30,
+          }}>
           <BackButton />
 
           <View>
@@ -98,8 +102,6 @@ const AnnouncementsDetail: React.FC<AnnouncementsDetailProps> = ({
           borderTopRightRadius: 40,
           borderTopLeftRadius: 40,
           backgroundColor: '#fff',
-          position: 'relative',
-          top: -30,
           zIndex: 100,
           elevation: 100,
           flex: 1,
