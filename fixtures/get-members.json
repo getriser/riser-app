@@ -1,0 +1,24 @@
+[
+  {
+    "id": 1,
+    "name": "Michael Squitieri",
+    "username": "msquiggs",
+    "email": "michael.squitieri@gmail.com",
+    "phoneNumber": "9179529361",
+    "birthdayMonth": 12,
+    "birthdayDay": 11,
+    "pronouns": "He/his",
+    "avatarUrl": "https://avatars2.githubusercontent.com/u/3160383?s=460&v=4"
+  },
+  {
+    "id": 2,
+    "name": "Ilana Steenkamp",
+    "username": "ilana",
+    "email": "ilanasteenkamp@gmail.com",
+    "phoneNumber": "+27 72 226 7780",
+    "birthdayMonth": 7,
+    "birthdayDay": 6,
+    "pronouns": "She/her",
+    "avatarUrl": "https://media-exp1.licdn.com/dms/image/C4D03AQGAyQOVVt8i0Q/profile-displayphoto-shrink_400_400/0?e=1603929600&v=beta&t=ZnlU4isMvUxpDUGOJ3jA4LJRMATlEhMQhx0qkkE2-1c"
+  }
+]

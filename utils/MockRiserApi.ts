@@ -2,9 +2,11 @@ import {
   Announcement,
   AnnouncementLite,
   IRiserApi,
+  Member,
   Reaction,
   SuccessMessage,
 } from '../types';
+import GetMembers from '../fixtures/get-members.json';
 import GetAnnouncements from '../fixtures/get-announcements.json';
 import GetAnnouncement from '../fixtures/get-announcement.json';
 import AddReaction from '../fixtures/add-reaction.json';
@@ -37,5 +39,9 @@ export default class MockRiserApi implements IRiserApi {
     return new Promise<T>((resolve) => {
       setTimeout(() => resolve(mock), timeout);
     });
+  }
+
+  getMembers(): Promise<Member[]> {
+    return this.mockResponse<Member[]>(GetMembers);
   }
 }

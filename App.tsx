@@ -1,34 +1,14 @@
 import * as React from 'react';
-import { Button, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import AnnouncementsIndex from './components/screens/AnnouncementsIndex';
 import AnnouncementsDetail from './components/screens/AnnouncementsDetail';
-import { AnnouncementsParams } from './types';
+import { AnnouncementsParams, MembersParams } from './types';
 import { Provider } from 'react-redux';
 import store from './redux/store';
-import colors from './styles/colors';
-
-function DetailsScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Details!</Text>
-    </View>
-  );
-}
-
-function SettingsScreen({ navigation }) {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Settings screen</Text>
-      <Button
-        title="Go to Details"
-        onPress={() => navigation.navigate('Details')}
-      />
-    </View>
-  );
-}
+import MembersIndex from './components/screens/MembersIndex';
+import MembersDetail from './components/screens/MembersDetail';
 
 const AnnouncementsStack = createStackNavigator<AnnouncementsParams>();
 
@@ -47,14 +27,14 @@ function AnnouncementsStackScreen() {
   );
 }
 
-const SettingsStack = createStackNavigator();
+const MembersStack = createStackNavigator<MembersParams>();
 
-function SettingsStackScreen() {
+function MembersStackScreen() {
   return (
-    <SettingsStack.Navigator>
-      <SettingsStack.Screen name="Settings" component={SettingsScreen} />
-      <SettingsStack.Screen name="Details" component={DetailsScreen} />
-    </SettingsStack.Navigator>
+    <MembersStack.Navigator screenOptions={{ headerShown: false }}>
+      <MembersStack.Screen name={'MembersIndex'} component={MembersIndex} />
+      <MembersStack.Screen name={'MembersDetail'} component={MembersDetail} />
+    </MembersStack.Navigator>
   );
 }
 
@@ -69,7 +49,7 @@ export default function App() {
             name="Announcements"
             component={AnnouncementsStackScreen}
           />
-          <Tab.Screen name="Settings" component={SettingsStackScreen} />
+          <Tab.Screen name="Members" component={MembersStackScreen} />
         </Tab.Navigator>
       </NavigationContainer>
     </Provider>

@@ -3,7 +3,14 @@ export type AnnouncementsParams = {
   AnnouncementsDetail: { id: number };
 };
 
+export type MembersParams = {
+  MembersIndex: undefined;
+  MembersDetail: { id: number };
+};
+
 export interface IRiserApi {
+  getMembers(): Promise<Member[]>;
+
   getAnnouncements(): Promise<AnnouncementLite[]>;
   getAnnouncement(id: number): Promise<Announcement>;
 
@@ -56,4 +63,16 @@ export interface Author {
 
 export interface IdMapping<T> {
   [key: number]: T;
+}
+
+export interface Member {
+  id: number;
+  name: string;
+  username: string;
+  email: string;
+  phoneNumber?: string;
+  birthDayMonth?: number;
+  birthDayDay?: number;
+  pronouns?: string;
+  avatarUrl: string;
 }

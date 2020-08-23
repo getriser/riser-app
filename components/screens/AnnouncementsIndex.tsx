@@ -14,6 +14,7 @@ import { RootState } from '../../redux/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAnnouncements } from '../../redux/slices/AnnouncementsSlice';
 import AnnouncementRow from '../AnnouncementRow';
+import Loading from '../Loading';
 
 type AnnouncementsIndexNavigationProps = StackNavigationProp<
   AnnouncementsParams,
@@ -44,9 +45,7 @@ const AnnouncementsIndex: React.FC<AnnouncementsIndexProps> = ({
       <PageHeader text={'Announcements'} />
       <View>
         {isLoading && !announcements ? (
-          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-            <ActivityIndicator />
-          </View>
+          <Loading />
         ) : (
           <FlatList
             data={announcements}
