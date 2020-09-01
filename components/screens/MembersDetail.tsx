@@ -9,6 +9,7 @@ import colors from '../../styles/colors';
 import fonts from '../../styles/fonts';
 import Loading from '../Loading';
 import BackButton from '../BackButton';
+import MemberInfoRow from '../MemberInfoRow';
 
 type MembersDetailNavigationProps = StackNavigationProp<
   MembersParams,
@@ -78,17 +79,35 @@ const MembersDetail: React.FC<MembersDetailProps> = ({ navigation, route }) => {
         </SafeAreaView>
       </View>
       <View style={{ flex: 1, marginTop: 50 }}>
-        <Image
-          source={{ uri: member.avatarUrl }}
+        <View
           style={{
-            width: 300,
-            height: 300,
-            alignSelf: 'center',
-            borderRadius: 500,
-            borderColor: colors.primary,
-            borderWidth: 5,
-          }}
-        />
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 0,
+              height: 4,
+            },
+            shadowOpacity: 0.32,
+            shadowRadius: 5.46,
+
+            elevation: 9,
+          }}>
+          <Image
+            source={{ uri: member.avatarUrl }}
+            style={{
+              width: 250,
+              height: 250,
+              borderRadius: 300,
+              alignSelf: 'center',
+              borderColor: '#fff',
+              borderWidth: 5,
+            }}
+          />
+        </View>
+        <View style={{ flex: 1, paddingHorizontal: 50, marginVertical: 30 }}>
+          <MemberInfoRow name={'Name'} value={member.name} />
+          <MemberInfoRow name={'Username'} value={`@${member.username}`} />
+          <MemberInfoRow name={'Email'} value={member.email} />
+        </View>
       </View>
     </View>
   );
