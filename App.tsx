@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  TransitionPresets,
+} from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import AnnouncementsIndex from './components/screens/AnnouncementsIndex';
 import AnnouncementsDetail from './components/screens/AnnouncementsDetail';
@@ -9,6 +12,15 @@ import { Provider } from 'react-redux';
 import store from './redux/store';
 import MembersIndex from './components/screens/MembersIndex';
 import MembersDetail from './components/screens/MembersDetail';
+import AddMember from './components/screens/AddMember';
+import { Platform } from 'react-native';
+
+const modalTransitionPreset =
+  Platform.OS === 'ios'
+    ? {
+        ...TransitionPresets.ModalPresentationIOS,
+      }
+    : { ...TransitionPresets.RevealFromBottomAndroid };
 
 const AnnouncementsStack = createStackNavigator<AnnouncementsParams>();
 
@@ -34,6 +46,11 @@ function MembersStackScreen() {
     <MembersStack.Navigator screenOptions={{ headerShown: false }}>
       <MembersStack.Screen name={'MembersIndex'} component={MembersIndex} />
       <MembersStack.Screen name={'MembersDetail'} component={MembersDetail} />
+      <MembersStack.Screen
+        name={'AddMember'}
+        component={AddMember}
+        options={{ ...modalTransitionPreset }}
+      />
     </MembersStack.Navigator>
   );
 }

@@ -1,7 +1,14 @@
 import * as React from 'react';
-import { Text, TextStyle, View, ViewStyle } from 'react-native';
+import {
+  Text,
+  TextStyle,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
+import Icon from 'react-native-vector-icons/Feather';
 
 const TEXT_STYLE: TextStyle = {
   color: colors.titleBlack,
@@ -20,8 +27,28 @@ interface PageHeaderProps {
 
 const PageHeader: React.FC<PageHeaderProps> = ({ text, style }) => {
   return (
-    <View style={style}>
+    <View
+      style={[
+        style,
+        {
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          paddingRight: 15,
+        },
+      ]}>
       <Text style={TEXT_STYLE}>{text}</Text>
+      <View>
+        {/*TODO: Migrate this out of the this component into a prop.*/}
+        <TouchableOpacity
+          style={{
+            backgroundColor: colors.primary,
+            borderRadius: 100,
+            padding: 10,
+          }}>
+          <Icon name="edit" size={20} style={{ color: colors.white }} />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };

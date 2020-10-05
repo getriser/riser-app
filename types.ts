@@ -5,6 +5,7 @@ export type AnnouncementsParams = {
 
 export type MembersParams = {
   MembersIndex: undefined;
+  AddMember: undefined;
   MembersDetail: { id: number };
 };
 
