@@ -77,3 +77,7 @@ export interface Member {
   pronouns?: string;
   avatarUrl: string;
 }
+
+export interface DefaultFormFields {
+  apiError: string;
+}

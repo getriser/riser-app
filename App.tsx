@@ -14,6 +14,8 @@ import MembersIndex from './components/screens/MembersIndex';
 import MembersDetail from './components/screens/MembersDetail';
 import AddMember from './components/screens/AddMember';
 import { Platform } from 'react-native';
+import { useState } from 'react';
+import Login from './components/screens/Login';
 
 const modalTransitionPreset =
   Platform.OS === 'ios'
@@ -57,17 +59,29 @@ function MembersStackScreen() {
 
 const Tab = createBottomTabNavigator();
 
+const AuthStack = createStackNavigator<any>();
+
 export default function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Tab.Navigator>
-          <Tab.Screen
-            name="Announcements"
-            component={AnnouncementsStackScreen}
-          />
-          <Tab.Screen name="Members" component={MembersStackScreen} />
-        </Tab.Navigator>
+        {!isLoggedIn && (
+          <AuthStack.Navigator screenOptions={{ headerShown: false }}>
+            <AuthStack.Screen name={'Login'} component={Login} />
+          </AuthStack.Navigator>
+        )}
+
+        {isLoggedIn && (
+          <Tab.Navigator>
+            <Tab.Screen
+              name="Announcements"
+              component={AnnouncementsStackScreen}
+            />
+            <Tab.Screen name="Members" component={MembersStackScreen} />
+          </Tab.Navigator>
+        )}
       </NavigationContainer>
     </Provider>
   );
