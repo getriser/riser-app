@@ -22,14 +22,13 @@ interface ChooseOrganizationProps {}
 
 const ChooseOrganization: React.FC<ChooseOrganizationProps> = ({}) => {
   const {
-    user: { token },
     organizations: { loading, organizations },
   } = useSelector((state: RootState) => state);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getMyOrganizations(token!));
+    dispatch(getMyOrganizations());
   }, []);
 
   if (loading && organizations === null) {
@@ -61,7 +60,7 @@ const ChooseOrganization: React.FC<ChooseOrganizationProps> = ({}) => {
           refreshControl={
             <RefreshControl
               refreshing={loading}
-              onRefresh={() => dispatch(getMyOrganizations(token!))}
+              onRefresh={() => dispatch(getMyOrganizations())}
             />
           }
         />

@@ -12,6 +12,8 @@ import ApiErrors from '../forms/ApiErrors';
 import { setToken } from '../../redux/slices/UserSlice';
 import { DefaultFormFields } from '../../types';
 import { useDispatch } from 'react-redux';
+import { saveToken } from '../../utils/AuthUtils';
+import Logger from '../../utils/Logger';
 
 interface LoginProps {}
 
@@ -41,8 +43,10 @@ const Login: React.FC<LoginProps> = ({}) => {
 
     try {
       const response = await api.login(data);
+      await saveToken(response.data.token);
       dispatch(setToken(response.data.token));
     } catch (e) {
+      Logger.error('Error thrown while logging in:', e);
       setError('apiError', { message: e.response.data.message });
     }
   };

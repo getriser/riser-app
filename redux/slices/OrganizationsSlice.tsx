@@ -3,6 +3,7 @@ import { AppThunk } from '../store';
 import Logger from '../../utils/Logger';
 import { OrganizationControllerApi } from '../../api';
 import { OrganizationResponse } from '../../api/api';
+import { getConfiguration } from '../../utils/ApiUtils';
 
 interface OrganizationsSliceState {
   loading: boolean;
@@ -32,15 +33,10 @@ const OrganizationsSlice = createSlice({
   },
 });
 
-export const getMyOrganizations = (token: string): AppThunk => async (
-  dispatch,
-) => {
+export const getMyOrganizations = (): AppThunk => async (dispatch) => {
   dispatch(setLoading(true));
   try {
-    const api = new OrganizationControllerApi({
-      apiKey: token,
-      basePath: 'http://localhost:3000',
-    });
+    const api = new OrganizationControllerApi(getConfiguration());
 
     const response = await api.getOrganizations();
     dispatch(setOrganizations(response.data));
