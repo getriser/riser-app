@@ -51,7 +51,7 @@ const Login: React.FC<LoginProps> = ({}) => {
     <SafeAreaView>
       <PageHeader text={'Login'} />
 
-      <View style={{ paddingHorizontal: 20 }}>
+      <View style={{ paddingHorizontal: 20, marginTop: 100 }}>
         <ApiErrors errors={errors} />
 
         <ControlledTextInput
