@@ -7,7 +7,6 @@ interface MemberRowProps {
 }
 
 const Container = styled.View`
-  flex: 1;
   flex-direction: row;
   align-items: center;
   border-bottom-color: rgba(0, 0, 0, 0.05);

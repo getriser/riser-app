@@ -41,13 +41,14 @@ const AnnouncementsIndex: React.FC<AnnouncementsIndexProps> = ({
   }, [dispatch, announcements]);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ flex: 1 }}>
       <PageHeader text={'Announcements'} />
-      <View>
+      <View style={{ flex: 1 }}>
         {isLoading && !announcements ? (
           <Loading />
         ) : (
           <FlatList
+            contentContainerStyle={{ flexGrow: 1 }}
             data={announcements}
             refreshing={isLoading}
             onRefresh={() => dispatch(fetchAnnouncements())}

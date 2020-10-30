@@ -38,17 +38,17 @@ const PageHeader: React.FC<PageHeaderProps> = ({ text, style }) => {
         },
       ]}>
       <Text style={TEXT_STYLE}>{text}</Text>
-      <View>
-        {/*TODO: Migrate this out of the this component into a prop.*/}
-        <TouchableOpacity
-          style={{
-            backgroundColor: colors.primary,
-            borderRadius: 100,
-            padding: 10,
-          }}>
-          <Icon name="edit" size={20} style={{ color: colors.white }} />
-        </TouchableOpacity>
-      </View>
+      {/*<View>*/}
+      {/*  /!*TODO: Migrate this out of the this component into a prop.*!/*/}
+      {/*  <TouchableOpacity*/}
+      {/*    style={{*/}
+      {/*      backgroundColor: colors.primary,*/}
+      {/*      borderRadius: 100,*/}
+      {/*      padding: 10,*/}
+      {/*    }}>*/}
+      {/*    <Icon name="edit" size={20} style={{ color: colors.white }} />*/}
+      {/*  </TouchableOpacity>*/}
+      {/*</View>*/}
     </View>
   );
 };

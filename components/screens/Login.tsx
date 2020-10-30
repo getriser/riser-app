@@ -9,7 +9,9 @@ import { Button } from 'react-native-paper';
 import colors from '../../styles/colors';
 import { AuthControllerApi } from '../../api';
 import ApiErrors from '../forms/ApiErrors';
+import { setToken } from '../../redux/slices/UserSlice';
 import { DefaultFormFields } from '../../types';
+import { useDispatch } from 'react-redux';
 
 interface LoginProps {}
 
@@ -24,6 +26,8 @@ const schema = yup.object().shape({
 });
 
 const Login: React.FC<LoginProps> = ({}) => {
+  const dispatch = useDispatch();
+
   const { handleSubmit, control, errors, setError, clearErrors } = useForm<
     LoginFormFields
   >({
@@ -37,6 +41,7 @@ const Login: React.FC<LoginProps> = ({}) => {
 
     try {
       const response = await api.login(data);
+      dispatch(setToken(response.data.token));
     } catch (e) {
       setError('apiError', { message: e.response.data.message });
     }
@@ -66,8 +71,8 @@ const Login: React.FC<LoginProps> = ({}) => {
         />
 
         <Button
-          theme={{ colors: { primary: colors.lighterPrimary } }}
-          style={{ backgroundColor: colors.primary, marginTop: 10 }}
+          theme={{ colors: { primary: colors.headerBlack } }}
+          style={{ backgroundColor: colors.headerBlack, marginTop: 10 }}
           onPress={handleSubmit(onSubmit)}>
           <Text style={{ color: colors.white }}>Log In</Text>
         </Button>

@@ -36,13 +36,14 @@ const MembersIndex: React.FC<MembersIndexProps> = ({ navigation }) => {
   }, [dispatch, members]);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ flex: 1 }}>
       <PageHeader text="Members" />
-      <View>
+      <View style={{ flex: 1 }}>
         {loading && !members ? (
           <Loading />
         ) : (
           <FlatList
+            contentContainerStyle={{ flexGrow: 1 }}
             data={members}
             refreshing={loading}
             onRefresh={() => dispatch(fetchMembers())}
