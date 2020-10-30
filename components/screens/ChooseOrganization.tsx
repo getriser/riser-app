@@ -48,11 +48,9 @@ const ChooseOrganization: React.FC<ChooseOrganizationProps> = ({}) => {
           contentContainerStyle={{ flexGrow: 1 }}
           data={organizations}
           renderItem={({ item }) => (
-            <View>
-              <TouchableOpacity onPress={() => onOrganizationSelect(item)}>
-                <OrganizationRow organization={item} />
-              </TouchableOpacity>
-            </View>
+            <TouchableOpacity onPress={() => onOrganizationSelect(item)}>
+              <OrganizationRow organization={item} />
+            </TouchableOpacity>
           )}
           ListEmptyComponent={
             <View>
