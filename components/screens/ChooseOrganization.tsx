@@ -52,9 +52,6 @@ const ChooseOrganization: React.FC<ChooseOrganizationProps> = ({}) => {
               <TouchableOpacity onPress={() => onOrganizationSelect(item)}>
                 <OrganizationRow organization={item} />
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => onOrganizationSelect(item)}>
-                <OrganizationRow organization={item} />
-              </TouchableOpacity>
             </View>
           )}
           ListEmptyComponent={
