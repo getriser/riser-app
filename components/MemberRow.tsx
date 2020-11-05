@@ -30,9 +30,9 @@ const NameContainer = styled.View`
 
 const Name = styled.Text``;
 
-const Username = styled.Text`
-  color: #979797;
-`;
+// const Username = styled.Text`
+//   color: #979797;
+//`;
 
 const MemberRow: React.FC<MemberRowProps> = ({ member }) => {
   return (

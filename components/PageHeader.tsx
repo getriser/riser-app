@@ -2,13 +2,11 @@ import * as React from 'react';
 import {
   Text,
   TextStyle,
-  TouchableOpacity,
   View,
   ViewStyle,
 } from 'react-native';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
-import Icon from 'react-native-vector-icons/Feather';
 
 const TEXT_STYLE: TextStyle = {
   color: colors.titleBlack,

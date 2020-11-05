@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Image, SafeAreaView, ScrollView, Text, View } from 'react-native';
+import { SafeAreaView, ScrollView, Text, View } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AnnouncementsParams, Reaction } from '../../types';
@@ -11,7 +11,6 @@ import {
   addReactionToAnnouncement,
 } from '../../redux/slices/AnnouncementsSlice';
 import colors from '../../styles/colors';
-import fonts from '../../styles/fonts';
 import Loading from '../Loading';
 import BackButton from '../BackButton';
 import EmojiPill from '../EmojiPill';

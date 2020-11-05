@@ -10,8 +10,6 @@ export type MembersParams = {
 };
 
 export interface IRiserApi {
-  getMembers(): Promise<Member[]>;
-
   getAnnouncement(id: number): Promise<Announcement>;
 
   addReactionToAnnouncement(

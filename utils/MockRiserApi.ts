@@ -1,20 +1,16 @@
 import {
   Announcement,
-  AnnouncementLite,
   IRiserApi,
-  Member,
   Reaction,
   SuccessMessage,
 } from '../types';
-import GetMembers from '../fixtures/get-members.json';
-import GetAnnouncements from '../fixtures/get-announcements.json';
 import GetAnnouncement from '../fixtures/get-announcement.json';
 import AddReaction from '../fixtures/add-reaction.json';
 import SuccessMessageResponse from '../fixtures/success-message.json';
 
 export default class MockRiserApi implements IRiserApi {
   getAnnouncement(id: number): Promise<Announcement> {
-    return this.mockResponse<Announcement>({ ...GetAnnouncement, ...{ id } });
+    return this.mockResponse<Announcement>({...GetAnnouncement, ...{id}});
   }
 
   addReactionToAnnouncement(
@@ -35,9 +31,5 @@ export default class MockRiserApi implements IRiserApi {
     return new Promise<T>((resolve) => {
       setTimeout(() => resolve(mock), timeout);
     });
-  }
-
-  getMembers(): Promise<Member[]> {
-    return this.mockResponse<Member[]>(GetMembers);
   }
 }

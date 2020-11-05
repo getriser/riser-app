@@ -1,12 +1,10 @@
 import React from 'react';
-import { View, Text, SafeAreaView } from 'react-native';
+import { View, SafeAreaView } from 'react-native';
 import PageHeader from '../PageHeader';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import ControlledTextInput from '../forms/ControlledTextInput';
-import { Button } from 'react-native-paper';
-import colors from '../../styles/colors';
 import { AuthControllerApi } from '../../api';
 import ApiErrors from '../forms/ApiErrors';
 import { setToken } from '../../redux/slices/UserSlice';
@@ -14,6 +12,7 @@ import { DefaultFormFields } from '../../types';
 import { useDispatch } from 'react-redux';
 import { saveToken } from '../../utils/AuthUtils';
 import Logger from '../../utils/Logger';
+import RiserButton from '../forms/RiserButton';
 
 interface LoginProps {}
 
@@ -74,12 +73,7 @@ const Login: React.FC<LoginProps> = ({}) => {
           secureTextEntry
         />
 
-        <Button
-          theme={{ colors: { primary: colors.headerBlack } }}
-          style={{ backgroundColor: colors.headerBlack, marginTop: 10 }}
-          onPress={handleSubmit(onSubmit)}>
-          <Text style={{ color: colors.white }}>Log In</Text>
-        </Button>
+        <RiserButton text="Log In" onPress={handleSubmit(onSubmit)} />
       </View>
     </SafeAreaView>
   );

@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AnnouncementsParams } from '../../types';
 import {
-  ActivityIndicator,
   FlatList,
   SafeAreaView,
   Text,
@@ -31,7 +30,7 @@ const AnnouncementsIndex: React.FC<AnnouncementsIndexProps> = ({
   const dispatch = useDispatch();
 
   const {
-    announcements: { announcements, isLoading, fetchAnnouncementsError },
+    announcements: { announcements, isLoading },
     organizations: { currentOrganization },
   } = useSelector((state: RootState) => state);
 

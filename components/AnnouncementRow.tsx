@@ -1,12 +1,5 @@
 import * as React from 'react';
-import {
-  Image,
-  Text,
-  ImageStyle,
-  TextStyle,
-  View,
-  ViewStyle,
-} from 'react-native';
+import { Text, TextStyle, View, ViewStyle } from 'react-native';
 import { getDateAgoString } from '../utils/DateUtils';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
@@ -27,11 +20,11 @@ const BOX_STYLE: ViewStyle = {
   paddingVertical: 10,
 };
 
-const IMAGE_STYLE: ImageStyle = {
-  borderRadius: 100,
-  alignSelf: 'flex-end',
-  marginBottom: 10,
-};
+// const IMAGE_STYLE: ImageStyle = {
+//   borderRadius: 100,
+//   alignSelf: 'flex-end',
+//   marginBottom: 10,
+// };
 
 const TITLE_STYLE: TextStyle = {
   color: colors.titleBlack,
@@ -66,7 +59,7 @@ const CREATED_AT_STYLE: TextStyle = {
   fontFamily: fonts.default,
   fontSize: 12,
   marginTop: 2,
-  textAlign: 'center'
+  textAlign: 'center',
 };
 
 const CREATED_AT_IMAGE_HOLDER_STYLE: ViewStyle = {
