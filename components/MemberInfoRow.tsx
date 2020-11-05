@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, View } from 'react-native';
+import colors from '../styles/colors';
 
 interface MemberInfoRowProps {
   name: string;
@@ -11,8 +12,9 @@ const MemberInfoRow: React.FC<MemberInfoRowProps> = ({ name, value }) => {
     <View
       style={{
         marginVertical: 10,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        paddingBottom: 15,
+        borderBottomWidth: 1,
+        borderBottomColor: colors.veryLightGray,
       }}>
       <View>
         <Text style={{ fontWeight: 'bold' }}>{name}:</Text>

@@ -27,11 +27,14 @@ interface MembersIndexProps {
 const MembersIndex: React.FC<MembersIndexProps> = ({ navigation }) => {
   const dispatch = useDispatch();
 
-  const { members, loading } = useSelector((state: RootState) => state.members);
+  const {
+    organizations: { currentOrganization },
+    members: { members, loading },
+  } = useSelector((state: RootState) => state);
 
   useEffect(() => {
     if (!members) {
-      dispatch(fetchMembers());
+      dispatch(fetchMembers(currentOrganization!.id));
     }
   }, [dispatch, members]);
 
@@ -46,7 +49,7 @@ const MembersIndex: React.FC<MembersIndexProps> = ({ navigation }) => {
             contentContainerStyle={{ flexGrow: 1 }}
             data={members}
             refreshing={loading}
-            onRefresh={() => dispatch(fetchMembers())}
+            onRefresh={() => dispatch(fetchMembers(currentOrganization!.id))}
             keyExtractor={(item, index) => item.id.toString()}
             renderItem={({ item }) => (
               <TouchableOpacity

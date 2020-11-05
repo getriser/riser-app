@@ -1,6 +1,7 @@
 import React from 'react';
-import { Member } from '../types';
 import styled from 'styled-components/native';
+import { Member } from '../api';
+import AvatarInitials from './AvatarInitials';
 
 interface MemberRowProps {
   member: Member;
@@ -36,10 +37,14 @@ const Username = styled.Text`
 const MemberRow: React.FC<MemberRowProps> = ({ member }) => {
   return (
     <Container>
-      <RoundedImage source={{ uri: member.avatarUrl }} />
+      {member.imageUrl ? (
+        <RoundedImage source={{ uri: member.imageUrl }} />
+      ) : (
+        <AvatarInitials name={member.name} />
+      )}
+
       <NameContainer>
         <Name>{member.name}</Name>
-        <Username>@{member.username}</Username>
       </NameContainer>
     </Container>
   );

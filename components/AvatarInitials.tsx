@@ -11,6 +11,7 @@ const AvatarInitials: React.FC<AvatarInitialsProps> = ({ name }) => {
   const initials = name
     .split(' ')
     .map((text) => text[0])
+    .filter((text) => text.match(/[A-z]/))
     .join('')
     .toUpperCase()
     .substring(0, 2);

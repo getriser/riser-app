@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IdMapping, Member } from '../../types';
+import { IdMapping } from '../../types';
 import { AppThunk } from '../store';
-import RiserApi from '../../utils/MockRiserApi';
 import Logger from '../../utils/Logger';
+import { Member, OrganizationControllerApi } from '../../api';
+import { getConfiguration } from '../../utils/ApiUtils';
 
 interface MembersSliceState {
   members: Member[] | null;
@@ -56,15 +57,16 @@ export const {
   addMembers,
 } = MembersSlice.actions;
 
-export const fetchMembers = (): AppThunk => async (dispatch) => {
+export const fetchMembers = (organizationId: number): AppThunk => async (
+  dispatch,
+) => {
   dispatch(startFetch());
 
   try {
-    const api = new RiserApi();
+    const api = new OrganizationControllerApi(getConfiguration());
+    const response = await api.getMembers(organizationId);
 
-    const members = await api.getMembers();
-
-    dispatch(addMembers(members));
+    dispatch(addMembers(response.data));
   } catch (e) {
     dispatch(errorFetch());
     Logger.error('Error thrown while trying fetch members.');

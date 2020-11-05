@@ -162,6 +162,18 @@ export interface InviteMemberBody {
      * @memberof InviteMemberBody
      */
     email: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof InviteMemberBody
+     */
+    firstName: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof InviteMemberBody
+     */
+    lastName: string;
 }
 /**
  * 
@@ -237,6 +249,12 @@ export interface Member {
      * @memberof Member
      */
     pronouns: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Member
+     */
+    imageUrl: string;
     /**
      * 
      * @type {OrganizationUserRole}
@@ -316,6 +334,18 @@ export interface RegisterUserProperties {
      * @memberof RegisterUserProperties
      */
     email: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RegisterUserProperties
+     */
+    firstName: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RegisterUserProperties
+     */
+    lastName: string;
     /**
      * 
      * @type {string}

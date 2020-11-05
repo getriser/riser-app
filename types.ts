@@ -66,18 +66,6 @@ export interface IdMapping<T> {
   [key: number]: T;
 }
 
-export interface Member {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-  phoneNumber?: string;
-  birthDayMonth?: number;
-  birthDayDay?: number;
-  pronouns?: string;
-  avatarUrl: string;
-}
-
 export interface DefaultFormFields {
   apiError: string;
 }

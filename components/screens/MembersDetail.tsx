@@ -1,15 +1,16 @@
 import React from 'react';
-import { Image, SafeAreaView, Text, View } from 'react-native';
+import { Image, SafeAreaView, ScrollView, Text, View } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { MembersParams } from '../../types';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/rootReducer';
 import colors from '../../styles/colors';
 import fonts from '../../styles/fonts';
 import Loading from '../Loading';
 import BackButton from '../BackButton';
 import MemberInfoRow from '../MemberInfoRow';
+import { Member } from '../../api';
 
 type MembersDetailNavigationProps = StackNavigationProp<
   MembersParams,
@@ -24,14 +25,13 @@ interface MembersDetailProps {
 }
 
 const MembersDetail: React.FC<MembersDetailProps> = ({ navigation, route }) => {
-  const dispatch = useDispatch();
   const memberId = route.params.id;
 
   const { membersById, loading } = useSelector(
     (state: RootState) => state.members,
   );
 
-  const member = membersById[memberId];
+  const member: Member = membersById[memberId];
 
   if (loading) {
     return <Loading />;
@@ -78,7 +78,7 @@ const MembersDetail: React.FC<MembersDetailProps> = ({ navigation, route }) => {
           </View>
         </SafeAreaView>
       </View>
-      <View style={{ flex: 1, marginTop: 50 }}>
+      <View style={{ flex: 1, marginTop: 10 }}>
         <View
           style={{
             shadowColor: '#000',
@@ -91,23 +91,33 @@ const MembersDetail: React.FC<MembersDetailProps> = ({ navigation, route }) => {
 
             elevation: 9,
           }}>
-          <Image
-            source={{ uri: member.avatarUrl }}
-            style={{
-              width: 250,
-              height: 250,
-              borderRadius: 300,
-              alignSelf: 'center',
-              borderColor: '#fff',
-              borderWidth: 5,
-            }}
-          />
+          {member.imageUrl && (
+            <Image
+              source={{ uri: member.imageUrl }}
+              style={{
+                width: 250,
+                height: 250,
+                borderRadius: 300,
+                alignSelf: 'center',
+                borderColor: '#fff',
+                borderWidth: 5,
+              }}
+            />
+          )}
         </View>
-        <View style={{ flex: 1, paddingHorizontal: 50, marginVertical: 30 }}>
+
+        <ScrollView
+          style={{
+            flex: 1,
+            paddingHorizontal: 50,
+            marginVertical: 30,
+            paddingTop: 10,
+            borderTopColor: colors.veryLightGray,
+            borderTopWidth: 1,
+          }}>
           <MemberInfoRow name={'Name'} value={member.name} />
-          <MemberInfoRow name={'Username'} value={`@${member.username}`} />
           <MemberInfoRow name={'Email'} value={member.email} />
-        </View>
+        </ScrollView>
       </View>
     </View>
   );
