@@ -13,10 +13,6 @@ import AddReaction from '../fixtures/add-reaction.json';
 import SuccessMessageResponse from '../fixtures/success-message.json';
 
 export default class MockRiserApi implements IRiserApi {
-  getAnnouncements(): Promise<AnnouncementLite[]> {
-    return this.mockResponse<AnnouncementLite[]>(GetAnnouncements);
-  }
-
   getAnnouncement(id: number): Promise<Announcement> {
     return this.mockResponse<Announcement>({ ...GetAnnouncement, ...{ id } });
   }

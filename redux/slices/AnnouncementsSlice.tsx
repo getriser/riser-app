@@ -1,17 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {
-  Announcement,
-  AnnouncementLite,
-  IdMapping,
-  Reaction,
-} from '../../types';
+import { Announcement, IdMapping, Reaction } from '../../types';
 import { AppThunk } from '../store';
 import RiserApi from '../../utils/MockRiserApi';
 import Logger from '../../utils/Logger';
+import { AnnouncementResponse, OrganizationControllerApi } from '../../api';
+import { getConfiguration } from '../../utils/ApiUtils';
 
 interface AnnouncementsState {
   announcementsById: IdMapping<Announcement>;
-  announcements: AnnouncementLite[] | null;
+  announcements: AnnouncementResponse[] | null;
   isLoading: boolean;
   fetchAnnouncementsError?: string;
 }
@@ -97,7 +94,7 @@ const announcementsSlice = createSlice({
       state.isLoading = false;
     },
 
-    setAnnouncements(state, action: PayloadAction<AnnouncementLite[]>) {
+    setAnnouncements(state, action: PayloadAction<AnnouncementResponse[]>) {
       const announcements = action.payload;
       state.announcements = announcements;
     },
@@ -109,13 +106,13 @@ const announcementsSlice = createSlice({
       });
     },
 
-    addAnnouncements(state, action: PayloadAction<AnnouncementLite[]>) {
+    addAnnouncements(state, action: PayloadAction<AnnouncementResponse[]>) {
       const announcements = action.payload;
       if (state.announcements === null) {
         state.announcements = [];
       }
 
-      announcements.forEach((announcement: AnnouncementLite) => {
+      announcements.forEach((announcement: AnnouncementResponse) => {
         state.announcements!.push(announcement);
       });
     },
@@ -133,15 +130,18 @@ export const {
   setAnnouncements,
 } = announcementsSlice.actions;
 
-export const fetchAnnouncements = (): AppThunk => async (dispatch) => {
+export const fetchAnnouncements = (
+  organizationId: number,
+  offset = 0,
+  limit = 20,
+): AppThunk => async (dispatch) => {
   dispatch(startFetchAnnouncements());
 
   try {
-    const api = new RiserApi();
+    const api = new OrganizationControllerApi(getConfiguration());
+    const response = await api.getAnnouncements(organizationId, offset, limit);
 
-    const announcements = await api.getAnnouncements();
-
-    dispatch(setAnnouncements(announcements));
+    dispatch(setAnnouncements(response.data));
   } catch (e) {
     Logger.error('Error fetching announcements:', e);
 

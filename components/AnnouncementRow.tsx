@@ -7,13 +7,14 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import { AnnouncementLite } from '../types';
 import { getDateAgoString } from '../utils/DateUtils';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
+import { AnnouncementResponse } from '../api';
+import AvatarInitials from './AvatarInitials';
 
 export interface AnnouncementRowProps {
-  announcement: AnnouncementLite;
+  announcement: AnnouncementResponse;
 }
 
 const BOX_STYLE: ViewStyle = {
@@ -22,7 +23,8 @@ const BOX_STYLE: ViewStyle = {
   alignItems: 'center',
   borderTopColor: 'rgba(0,0,0,0.05)',
   borderTopWidth: 1,
-  padding: 5,
+  paddingHorizontal: 5,
+  paddingVertical: 10,
 };
 
 const IMAGE_STYLE: ImageStyle = {
@@ -35,6 +37,7 @@ const TITLE_STYLE: TextStyle = {
   color: colors.titleBlack,
   fontSize: 16,
   fontFamily: fonts.default,
+  marginRight: 5,
 };
 
 const DOT_HOLDER_STYLE: TextStyle = {
@@ -54,6 +57,7 @@ const CONTENT_STYLE: TextStyle = {
   fontSize: 14,
   fontFamily: fonts.default,
   marginTop: 5,
+  marginRight: 10,
 };
 
 const CREATED_AT_STYLE: TextStyle = {
@@ -62,6 +66,7 @@ const CREATED_AT_STYLE: TextStyle = {
   fontFamily: fonts.default,
   fontSize: 12,
   marginTop: 2,
+  textAlign: 'center'
 };
 
 const CREATED_AT_IMAGE_HOLDER_STYLE: ViewStyle = {
@@ -96,10 +101,11 @@ const AnnouncementRow: React.FC<AnnouncementRowProps> = ({ announcement }) => {
         <Text style={CREATED_AT_STYLE}>
           {getDateAgoString(announcement.createdAt)}
         </Text>
-        <Image
-          style={IMAGE_STYLE}
-          source={{ uri: announcement.author.avatarUrl, width: 35, height: 35 }}
-        />
+        <AvatarInitials name={announcement.author.name} />
+        {/*<Image*/}
+        {/*  style={IMAGE_STYLE}*/}
+        {/*  source={{ uri: announcement.author.avatarUrl, width: 35, height: 35 }}*/}
+        {/*/>*/}
       </View>
     </View>
   );

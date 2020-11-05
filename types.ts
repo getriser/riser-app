@@ -12,7 +12,6 @@ export type MembersParams = {
 export interface IRiserApi {
   getMembers(): Promise<Member[]>;
 
-  getAnnouncements(): Promise<AnnouncementLite[]>;
   getAnnouncement(id: number): Promise<Announcement>;
 
   addReactionToAnnouncement(

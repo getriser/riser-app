@@ -30,13 +30,14 @@ const AnnouncementsIndex: React.FC<AnnouncementsIndexProps> = ({
 }) => {
   const dispatch = useDispatch();
 
-  const { announcements, isLoading, fetchAnnouncementsError } = useSelector(
-    (state: RootState) => state.announcements,
-  );
+  const {
+    announcements: { announcements, isLoading, fetchAnnouncementsError },
+    organizations: { currentOrganization },
+  } = useSelector((state: RootState) => state);
 
   useEffect(() => {
     if (!announcements) {
-      dispatch(fetchAnnouncements());
+      dispatch(fetchAnnouncements(currentOrganization!.id));
     }
   }, [dispatch, announcements]);
 
@@ -51,7 +52,9 @@ const AnnouncementsIndex: React.FC<AnnouncementsIndexProps> = ({
             contentContainerStyle={{ flexGrow: 1 }}
             data={announcements}
             refreshing={isLoading}
-            onRefresh={() => dispatch(fetchAnnouncements())}
+            onRefresh={() =>
+              dispatch(fetchAnnouncements(currentOrganization!.id))
+            }
             keyExtractor={(item, index) => item.id.toString()}
             renderItem={({ item }) => (
               <TouchableOpacity
