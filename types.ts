@@ -66,3 +66,8 @@ export interface IdMapping<T> {
 export interface DefaultFormFields {
   apiError: string;
 }
+
+export enum ButtonType {
+  DEFAULT,
+  PRIMARY,
+}

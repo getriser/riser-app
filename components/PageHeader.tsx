@@ -1,12 +1,8 @@
 import * as React from 'react';
-import {
-  Text,
-  TextStyle,
-  View,
-  ViewStyle,
-} from 'react-native';
+import { Text, TextStyle, View, ViewStyle } from 'react-native';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
+import { ComponentType, ReactElement } from 'react';
 
 const TEXT_STYLE: TextStyle = {
   color: colors.titleBlack,
@@ -21,9 +17,16 @@ const TEXT_STYLE: TextStyle = {
 interface PageHeaderProps {
   text: string;
   style?: ViewStyle;
+  textStyle?: TextStyle;
+  RightComponent?: ComponentType<any> | ReactElement | null;
 }
 
-const PageHeader: React.FC<PageHeaderProps> = ({ text, style }) => {
+const PageHeader: React.FC<PageHeaderProps> = ({
+  text,
+  style,
+  textStyle,
+  RightComponent,
+}) => {
   return (
     <View
       style={[
@@ -35,18 +38,8 @@ const PageHeader: React.FC<PageHeaderProps> = ({ text, style }) => {
           paddingRight: 15,
         },
       ]}>
-      <Text style={TEXT_STYLE}>{text}</Text>
-      {/*<View>*/}
-      {/*  /!*TODO: Migrate this out of the this component into a prop.*!/*/}
-      {/*  <TouchableOpacity*/}
-      {/*    style={{*/}
-      {/*      backgroundColor: colors.primary,*/}
-      {/*      borderRadius: 100,*/}
-      {/*      padding: 10,*/}
-      {/*    }}>*/}
-      {/*    <Icon name="edit" size={20} style={{ color: colors.white }} />*/}
-      {/*  </TouchableOpacity>*/}
-      {/*</View>*/}
+      <Text style={[TEXT_STYLE, textStyle]}>{text}</Text>
+      <View>{RightComponent}</View>
     </View>
   );
 };

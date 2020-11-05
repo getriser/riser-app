@@ -2,6 +2,7 @@ import React from 'react';
 import { KeyboardTypeOptions, Text, TextInput, View } from 'react-native';
 import { Controller, Control, FieldErrors } from 'react-hook-form';
 import colors from '../../styles/colors';
+import { human } from 'react-native-typography';
 
 interface ControlledTextInputProps {
   control: Control;
@@ -25,20 +26,30 @@ const ControlledTextInput: React.FC<ControlledTextInputProps> = ({
   const hasErrors = errors[name];
 
   return (
-    <>
-      {label && <Text style={{ marginBottom: 5 }}>{label}</Text>}
+    <View style={{ marginVertical: 5 }}>
+      {label && (
+        <Text
+          style={[
+            human.calloutWhite,
+            { marginBottom: 5, color: colors.white },
+          ]}>
+          {label}
+        </Text>
+      )}
       <Controller
         control={control}
         render={({ onChange, onBlur, value }) => (
           <TextInput
-            style={{
-              borderColor: hasErrors ? colors.danger : colors.headerBlack,
-              borderWidth: 2,
-              backgroundColor: colors.veryLightGray,
-              color: colors.headerBlack,
-              paddingVertical: 10,
-              paddingHorizontal: 10,
-            }}
+            style={[
+              human.body,
+              {
+                borderColor: hasErrors ? colors.danger : colors.headerBlack,
+                borderWidth: 2,
+                backgroundColor: colors.white,
+                paddingVertical: 10,
+                paddingHorizontal: 10,
+              },
+            ]}
             onBlur={onBlur}
             onChangeText={(value) => onChange(value)}
             value={value}
@@ -51,11 +62,11 @@ const ControlledTextInput: React.FC<ControlledTextInputProps> = ({
       />
 
       {errors[name] && (
-        <View style={{ backgroundColor: colors.lighterPrimary, padding: 5 }}>
-          <Text style={{}}>{errors[name].message}</Text>
+        <View style={{ backgroundColor: colors.titleBlack, padding: 5 }}>
+          <Text style={{ color: colors.white }}>{errors[name].message}</Text>
         </View>
       )}
-    </>
+    </View>
   );
 };
 

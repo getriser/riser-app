@@ -13,6 +13,8 @@ import { useDispatch } from 'react-redux';
 import { saveToken } from '../../utils/AuthUtils';
 import Logger from '../../utils/Logger';
 import RiserButton from '../forms/RiserButton';
+import { getConfiguration } from '../../utils/ApiUtils';
+import colors from '../../styles/colors';
 
 interface LoginProps {}
 
@@ -38,7 +40,7 @@ const Login: React.FC<LoginProps> = ({}) => {
   const onSubmit = async (data: LoginFormFields) => {
     clearErrors();
 
-    const api = new AuthControllerApi({ basePath: 'http://localhost:3000' });
+    const api = new AuthControllerApi(getConfiguration());
 
     try {
       const response = await api.login(data);
@@ -51,8 +53,8 @@ const Login: React.FC<LoginProps> = ({}) => {
   };
 
   return (
-    <SafeAreaView>
-      <PageHeader text={'Login'} />
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.primary }}>
+      <PageHeader text={'Login'} textStyle={{ color: colors.white }} />
 
       <View style={{ paddingHorizontal: 20, marginTop: 100 }}>
         <ApiErrors errors={errors} />
