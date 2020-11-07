@@ -48,6 +48,7 @@ const ControlledTextInput: React.FC<ControlledTextInputProps> = ({
                 backgroundColor: colors.white,
                 paddingVertical: 10,
                 paddingHorizontal: 10,
+                borderRadius: 5,
               },
             ]}
             onBlur={onBlur}
