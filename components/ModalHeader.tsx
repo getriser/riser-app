@@ -6,9 +6,10 @@ import colors from '../styles/colors';
 
 interface ModalHeaderProps {
   title: string;
+  backIcon?: string;
 }
 
-const ModalHeader: React.FC<ModalHeaderProps> = ({ title }) => {
+const ModalHeader: React.FC<ModalHeaderProps> = ({ title, backIcon = 'x' }) => {
   const navigation = useNavigation();
 
   return (
@@ -20,9 +21,9 @@ const ModalHeader: React.FC<ModalHeaderProps> = ({ title }) => {
         padding: 15,
         alignItems: 'center',
       }}>
-      <View style={{}}>
+      <View>
         <Icon
-          name="x"
+          name={backIcon}
           size={25}
           style={{ color: colors.white }}
           onPress={() => navigation.goBack()}

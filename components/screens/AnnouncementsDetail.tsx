@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { SafeAreaView, ScrollView, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { SafeAreaView, Text, View } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AnnouncementsParams, Reaction } from '../../types';
@@ -16,7 +16,10 @@ import BackButton from '../BackButton';
 import EmojiPill from '../EmojiPill';
 import AnnouncementDetailHeader from '../AnnouncementDetailHeader';
 import CommentRow from '../CommentRow';
+// @ts-ignore
+import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import Logger from '../../utils/Logger';
+import ModalHeader from '../ModalHeader';
 
 type AnnouncementsDetailNavigationProps = StackNavigationProp<
   AnnouncementsParams,
@@ -37,6 +40,7 @@ const AnnouncementsDetail: React.FC<AnnouncementsDetailProps> = ({
   navigation,
   route,
 }) => {
+  const [stickyHeaderHeight, setStickyHeaderHeight] = useState<number>(0);
   const dispatch = useDispatch();
   const announcementId = route.params.id;
 
@@ -74,85 +78,113 @@ const AnnouncementsDetail: React.FC<AnnouncementsDetailProps> = ({
 
   return (
     <View style={{ flex: 1 }}>
-      <View
-        style={{
-          backgroundColor: colors.primary,
-        }}>
-        <SafeAreaView
+      <ParallaxScrollView
+        scrollEvent={(event: any) => {
+          if (
+            event.nativeEvent.contentOffset.y <= 0 &&
+            stickyHeaderHeight > 0
+          ) {
+            setStickyHeaderHeight(0);
+          } else if (
+            event.nativeEvent.contentOffset.y > 0 &&
+            stickyHeaderHeight === 0
+          ) {
+            setStickyHeaderHeight(100);
+          }
+        }}
+        backgroundColor={colors.primary}
+        parallaxHeaderHeight={320}
+        stickyHeaderHeight={stickyHeaderHeight}
+        renderStickyHeader={() => (
+          <SafeAreaView
+            style={{
+              backgroundColor: colors.primary,
+            }}>
+            <ModalHeader title={announcement.title} backIcon={'chevron-left'} />
+          </SafeAreaView>
+        )}
+        renderForeground={() => (
+          <View
+            style={{
+              backgroundColor: colors.primary,
+            }}>
+            <SafeAreaView
+              style={{
+                position: 'relative',
+                top: 30,
+              }}>
+              <BackButton />
+
+              <View>
+                <View
+                  style={{
+                    backgroundColor: colors.primary,
+                    paddingBottom: 70,
+                  }}>
+                  <AnnouncementDetailHeader announcement={announcement} />
+                </View>
+              </View>
+            </SafeAreaView>
+          </View>
+        )}>
+        <View
           style={{
             position: 'relative',
-            top: 30,
+            top: -70,
+            borderTopRightRadius: 40,
+            borderTopLeftRadius: 40,
+            backgroundColor: '#fff',
+            flex: 1,
           }}>
-          <BackButton />
+          <View
+            style={{
+              paddingHorizontal: 40,
+            }}>
+            <View
+              style={{
+                marginTop: 40,
+                marginBottom: 20,
+                borderBottomWidth: 1,
+                borderBottomColor: '#eaeaea',
+              }}>
+              <Text>{announcement.content}</Text>
+            </View>
+            <View style={{ flexDirection: 'row' }}>
+              {announcement.reactions
+                .slice()
+                .sort((a, b) => a.count - b.count)
+                .map((reaction: Reaction) => (
+                  <EmojiPill
+                    reaction={reaction}
+                    onPress={() => onEmojiClick(reaction)}
+                    onLongPress={() => onEmojiLongPress(reaction)}
+                  />
+                ))}
+            </View>
+          </View>
 
           <View>
             <View
               style={{
-                backgroundColor: colors.primary,
-                paddingBottom: 70,
+                marginTop: 20,
+                marginHorizontal: 10,
               }}>
-              <AnnouncementDetailHeader announcement={announcement} />
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: 16,
+                  marginBottom: 10,
+                }}>
+                Comments
+              </Text>
             </View>
-          </View>
-        </SafeAreaView>
-      </View>
-      <ScrollView
-        style={{
-          borderTopRightRadius: 40,
-          borderTopLeftRadius: 40,
-          backgroundColor: '#fff',
-          zIndex: 100,
-          elevation: 100,
-          flex: 1,
-        }}>
-        <View
-          style={{
-            paddingHorizontal: 40,
-          }}>
-          <View
-            style={{
-              marginTop: 40,
-              marginBottom: 20,
-              borderBottomWidth: 1,
-              borderBottomColor: '#eaeaea',
-            }}>
-            <Text>{announcement.content}</Text>
-          </View>
-          <View style={{ flexDirection: 'row' }}>
-            {announcement.reactions
-              .slice()
-              .sort((a, b) => a.count - b.count)
-              .map((reaction: Reaction) => (
-                <EmojiPill
-                  reaction={reaction}
-                  onPress={() => onEmojiClick(reaction)}
-                  onLongPress={() => onEmojiLongPress(reaction)}
-                />
-              ))}
+
+            {announcement.comments.map((comment) => (
+              <CommentRow comment={comment} />
+            ))}
           </View>
         </View>
-
-        <View>
-          <View
-            style={{
-              marginTop: 20,
-              marginHorizontal: 10,
-            }}>
-            <Text
-              style={{
-                fontWeight: 'bold',
-                fontSize: 16,
-                marginBottom: 10,
-              }}>
-              Comments
-            </Text>
-          </View>
-
-          {announcement.comments.map((comment) => (
-            <CommentRow comment={comment} />
-          ))}
-        </View>
-      </ScrollView>
+      </ParallaxScrollView>
     </View>
   );
 };
