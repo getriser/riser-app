@@ -16,6 +16,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { RootState } from './redux/rootReducer';
 import ChooseOrganization from './components/screens/ChooseOrganization';
+import colors from './styles/colors';
+import TabBarIcon from './components/TabBarIcon';
 
 interface EntryPointProps {}
 
@@ -90,12 +92,32 @@ const EntryPoint: React.FC<EntryPointProps> = ({}) => {
       )}
 
       {token && currentOrganization && (
-        <Tab.Navigator>
+        <Tab.Navigator
+          tabBarOptions={{
+            activeTintColor: colors.white,
+            inactiveTintColor: colors.subtitleGray,
+            style: {
+              backgroundColor: colors.headerBlack,
+            },
+          }}>
           <Tab.Screen
             name="Announcements"
             component={AnnouncementsStackScreen}
+            options={{
+              tabBarIcon: ({ focused }) => (
+                <TabBarIcon icon={'send'} focused={focused} />
+              ),
+            }}
           />
-          <Tab.Screen name="Members" component={MembersStackScreen} />
+          <Tab.Screen
+            name="Members"
+            component={MembersStackScreen}
+            options={{
+              tabBarIcon: ({ focused }) => (
+                <TabBarIcon icon={'smile'} focused={focused} />
+              ),
+            }}
+          />
         </Tab.Navigator>
       )}
     </NavigationContainer>
