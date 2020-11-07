@@ -1,11 +1,19 @@
 import React from 'react';
-import { human } from 'react-native-typography';
-import { Text, View } from 'react-native';
-import colors from '../styles/colors';
+import { Avatar } from 'react-native-elements';
 
 interface AvatarInitialsProps {
   name: string;
 }
+
+const colors = [
+  '#00AA55',
+  '#009FD4',
+  '#B381B3',
+  '#939393',
+  '#E3BC00',
+  '#D47500',
+  '#DC2A2A',
+];
 
 const AvatarInitials: React.FC<AvatarInitialsProps> = ({ name }) => {
   const initials = name
@@ -16,17 +24,21 @@ const AvatarInitials: React.FC<AvatarInitialsProps> = ({ name }) => {
     .toUpperCase()
     .substring(0, 2);
 
+  const intValueOfInitials = parseInt(
+    initials
+      .split('')
+      .map((char) => char.charCodeAt(0))
+      .join(''),
+    10,
+  );
+  const backgroundColor = colors[intValueOfInitials % colors.length];
+
   return (
-    <View
-      style={{
-        backgroundColor: colors.primary,
-        padding: 10,
-        borderRadius: 200,
-      }}>
-      <Text style={[human.calloutWhite, { minWidth: 20, textAlign: 'center' }]}>
-        {initials}
-      </Text>
-    </View>
+    <Avatar
+      rounded
+      title={initials}
+      overlayContainerStyle={{ backgroundColor }}
+    />
   );
 };
 
