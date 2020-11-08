@@ -77,7 +77,7 @@ const AnnouncementsDetail: React.FC<AnnouncementsDetailProps> = ({
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <KeyboardAvoidingView style={{ flex: 1 }} behavior={'padding'}>
       <ParallaxScrollView
         scrollEvent={(event: any) => {
           if (
@@ -127,56 +127,46 @@ const AnnouncementsDetail: React.FC<AnnouncementsDetailProps> = ({
             </SafeAreaView>
           </View>
         )}>
-        <KeyboardAvoidingView
+        <View
           style={{
+            position: 'relative',
+            top: -70,
+            borderTopRightRadius: 40,
+            borderTopLeftRadius: 40,
+            backgroundColor: '#fff',
             flex: 1,
-            flexDirection: 'column',
-            justifyContent: 'flex-end',
-          }}
-          behavior={'padding'}>
+          }}>
           <View
             style={{
-              position: 'relative',
-              top: -70,
-              borderTopRightRadius: 40,
-              borderTopLeftRadius: 40,
-              backgroundColor: '#fff',
-              flex: 1,
+              paddingHorizontal: 40,
             }}>
             <View
               style={{
-                paddingHorizontal: 40,
+                marginTop: 40,
+                paddingBottom: 20,
+                borderBottomWidth: 1,
+                borderBottomColor: '#eaeaea',
               }}>
-              <View
-                style={{
-                  marginTop: 40,
-                  paddingBottom: 20,
-                  borderBottomWidth: 1,
-                  borderBottomColor: '#eaeaea',
-                }}>
-                <Text>{announcement.content}</Text>
-              </View>
-              <View style={{ flexDirection: 'row' }}>
-                {(announcement.reactions || [])
-                  .slice()
-                  .sort((a, b) => a.count - b.count)
-                  .map((reaction: Reaction) => (
-                    <EmojiPill
-                      reaction={reaction}
-                      onPress={() => onEmojiClick(reaction)}
-                      onLongPress={() => onEmojiLongPress(reaction)}
-                    />
-                  ))}
-              </View>
+              <Text>{announcement.content}</Text>
             </View>
-
-            <View>
-              <CommentsContainer announcement={announcement} />
+            <View style={{ flexDirection: 'row' }}>
+              {(announcement.reactions || [])
+                .slice()
+                .sort((a, b) => a.count - b.count)
+                .map((reaction: Reaction) => (
+                  <EmojiPill
+                    reaction={reaction}
+                    onPress={() => onEmojiClick(reaction)}
+                    onLongPress={() => onEmojiLongPress(reaction)}
+                  />
+                ))}
             </View>
           </View>
-        </KeyboardAvoidingView>
+
+          <CommentsContainer announcement={announcement} />
+        </View>
       </ParallaxScrollView>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
