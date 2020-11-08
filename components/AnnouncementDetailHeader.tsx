@@ -1,12 +1,13 @@
 import React from 'react';
-import { Announcement } from '../types';
-import { Image, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 import moment from 'moment';
+import { AnnouncementResponse } from '../api';
+import AvatarInitials from './AvatarInitials';
 
 interface AnnouncementDetailHeaderProps {
-  announcement: Announcement;
+  announcement: AnnouncementResponse;
 }
 
 const AnnouncementDetailHeader: React.FC<AnnouncementDetailHeaderProps> = ({
@@ -27,10 +28,13 @@ const AnnouncementDetailHeader: React.FC<AnnouncementDetailHeaderProps> = ({
         {announcement.title}
       </Text>
       <View style={{ flexDirection: 'row', marginTop: 10 }}>
-        <Image
-          style={{ borderRadius: 100, width: 35, marginRight: 10 }}
-          source={{ uri: announcement.author.avatarUrl }}
-        />
+        <View style={{ marginRight: 10 }}>
+          <AvatarInitials name={announcement.author.name} />
+        </View>
+        {/*<Image*/}
+        {/*  style={{ borderRadius: 100, width: 35, marginRight: 10 }}*/}
+        {/*  source={{ uri: announcement.author.avatarUrl }}*/}
+        {/*/>*/}
         <View>
           <Text style={{ color: '#fff', fontWeight: 'bold' }}>
             {announcement.author.name}

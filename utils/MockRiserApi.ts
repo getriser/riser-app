@@ -7,6 +7,7 @@ import {
 import GetAnnouncement from '../fixtures/get-announcement.json';
 import AddReaction from '../fixtures/add-reaction.json';
 import SuccessMessageResponse from '../fixtures/success-message.json';
+import {AnnouncementResponse} from '../api';
 
 export default class MockRiserApi implements IRiserApi {
   getAnnouncement(id: number): Promise<Announcement> {
@@ -14,14 +15,14 @@ export default class MockRiserApi implements IRiserApi {
   }
 
   addReactionToAnnouncement(
-    announcement: Announcement,
+    announcement: AnnouncementResponse,
     reaction: Reaction,
   ): Promise<Reaction> {
     return this.mockResponse<Reaction>(AddReaction);
   }
 
   removeReactionFromAnnouncement(
-    announcement: Announcement,
+    announcement: AnnouncementResponse,
     reaction: Reaction,
   ): Promise<SuccessMessage> {
     return this.mockResponse<SuccessMessage>(SuccessMessageResponse);

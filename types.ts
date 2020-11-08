@@ -1,3 +1,5 @@
+import {AnnouncementResponse} from './api';
+
 export type AnnouncementsParams = {
   AnnouncementsIndex: undefined;
   AnnouncementsDetail: { id: number };
@@ -13,12 +15,12 @@ export interface IRiserApi {
   getAnnouncement(id: number): Promise<Announcement>;
 
   addReactionToAnnouncement(
-    announcement: Announcement,
+    announcement: AnnouncementResponse,
     reaction: Reaction,
   ): Promise<Reaction>;
 
   removeReactionFromAnnouncement(
-    announcement: Announcement,
+    announcement: AnnouncementResponse,
     reaction: Reaction,
   ): Promise<SuccessMessage>;
 }

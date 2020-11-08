@@ -80,7 +80,24 @@ const AnnouncementRow: React.FC<AnnouncementRowProps> = ({ announcement }) => {
   return (
     <View style={BOX_STYLE}>
       <View style={DOT_HOLDER_STYLE}>
-        {!announcement.isRead ? <Text style={DOT_STYLE}>•</Text> : null}
+        {!announcement.isRead ? (
+          <Text style={DOT_STYLE}>•</Text>
+        ) : (
+          <View
+            style={{
+              backgroundColor: colors.subtitleGray,
+              paddingHorizontal: 5,
+              paddingVertical: 2,
+              borderRadius: 2,
+            }}>
+            <Text
+              style={{
+                color: colors.white,
+              }}>
+              {announcement.numberOfComments}
+            </Text>
+          </View>
+        )}
       </View>
 
       <View style={TITLE_CONTENT_HOLDER}>

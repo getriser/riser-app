@@ -9,6 +9,7 @@ interface ControlledTextInputProps {
   errors: FieldErrors;
   name: string;
   label?: string;
+  placeholder?: string;
   defaultValue?: string;
   keyboardType?: KeyboardTypeOptions;
   secureTextEntry?: boolean;
@@ -19,6 +20,7 @@ const ControlledTextInput: React.FC<ControlledTextInputProps> = ({
   errors,
   name,
   label,
+  placeholder,
   defaultValue = '',
   keyboardType,
   secureTextEntry,
@@ -56,6 +58,7 @@ const ControlledTextInput: React.FC<ControlledTextInputProps> = ({
             value={value}
             keyboardType={keyboardType}
             secureTextEntry={secureTextEntry}
+            placeholder={placeholder}
           />
         )}
         name={name}

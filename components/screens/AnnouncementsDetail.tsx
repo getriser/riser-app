@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, Text, View } from 'react-native';
+import { KeyboardAvoidingView, SafeAreaView, Text, View } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AnnouncementsParams, Reaction } from '../../types';
@@ -15,11 +15,11 @@ import Loading from '../Loading';
 import BackButton from '../BackButton';
 import EmojiPill from '../EmojiPill';
 import AnnouncementDetailHeader from '../AnnouncementDetailHeader';
-import CommentRow from '../CommentRow';
 // @ts-ignore
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import Logger from '../../utils/Logger';
 import ModalHeader from '../ModalHeader';
+import CommentsContainer from '../Announcements/CommentsContainer';
 
 type AnnouncementsDetailNavigationProps = StackNavigationProp<
   AnnouncementsParams,
@@ -127,63 +127,54 @@ const AnnouncementsDetail: React.FC<AnnouncementsDetailProps> = ({
             </SafeAreaView>
           </View>
         )}>
-        <View
+        <KeyboardAvoidingView
           style={{
-            position: 'relative',
-            top: -70,
-            borderTopRightRadius: 40,
-            borderTopLeftRadius: 40,
-            backgroundColor: '#fff',
             flex: 1,
-          }}>
+            flexDirection: 'column',
+            justifyContent: 'flex-end',
+          }}
+          behavior={'padding'}>
           <View
             style={{
-              paddingHorizontal: 40,
+              position: 'relative',
+              top: -70,
+              borderTopRightRadius: 40,
+              borderTopLeftRadius: 40,
+              backgroundColor: '#fff',
+              flex: 1,
             }}>
             <View
               style={{
-                marginTop: 40,
-                marginBottom: 20,
-                borderBottomWidth: 1,
-                borderBottomColor: '#eaeaea',
+                paddingHorizontal: 40,
               }}>
-              <Text>{announcement.content}</Text>
-            </View>
-            <View style={{ flexDirection: 'row' }}>
-              {announcement.reactions
-                .slice()
-                .sort((a, b) => a.count - b.count)
-                .map((reaction: Reaction) => (
-                  <EmojiPill
-                    reaction={reaction}
-                    onPress={() => onEmojiClick(reaction)}
-                    onLongPress={() => onEmojiLongPress(reaction)}
-                  />
-                ))}
-            </View>
-          </View>
-
-          <View>
-            <View
-              style={{
-                marginTop: 20,
-                marginHorizontal: 10,
-              }}>
-              <Text
+              <View
                 style={{
-                  fontWeight: 'bold',
-                  fontSize: 16,
-                  marginBottom: 10,
+                  marginTop: 40,
+                  paddingBottom: 20,
+                  borderBottomWidth: 1,
+                  borderBottomColor: '#eaeaea',
                 }}>
-                Comments
-              </Text>
+                <Text>{announcement.content}</Text>
+              </View>
+              <View style={{ flexDirection: 'row' }}>
+                {(announcement.reactions || [])
+                  .slice()
+                  .sort((a, b) => a.count - b.count)
+                  .map((reaction: Reaction) => (
+                    <EmojiPill
+                      reaction={reaction}
+                      onPress={() => onEmojiClick(reaction)}
+                      onLongPress={() => onEmojiLongPress(reaction)}
+                    />
+                  ))}
+              </View>
             </View>
 
-            {announcement.comments.map((comment) => (
-              <CommentRow comment={comment} />
-            ))}
+            <View>
+              <CommentsContainer announcement={announcement} />
+            </View>
           </View>
-        </View>
+        </KeyboardAvoidingView>
       </ParallaxScrollView>
     </View>
   );
