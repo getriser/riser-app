@@ -5,6 +5,7 @@ import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 import { AnnouncementResponse } from '../api';
 import AvatarInitials from './AvatarInitials';
+import { stripNewLines } from '../utils/StringUtils';
 
 export interface AnnouncementRowProps {
   announcement: AnnouncementResponse;
@@ -106,7 +107,7 @@ const AnnouncementRow: React.FC<AnnouncementRowProps> = ({ announcement }) => {
           <Text style={{ marginTop: 5, color: colors.danger }}>[DRAFT]</Text>
         )}
         <Text style={CONTENT_STYLE} numberOfLines={3}>
-          {announcement.content}
+          {stripNewLines(announcement.content)}
         </Text>
       </View>
 
