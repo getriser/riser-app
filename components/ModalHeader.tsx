@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ComponentType, ReactElement } from 'react';
 import { Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native';
@@ -7,9 +7,14 @@ import colors from '../styles/colors';
 interface ModalHeaderProps {
   title: string;
   backIcon?: string;
+  RightComponent?: ComponentType<any> | ReactElement | null;
 }
 
-const ModalHeader: React.FC<ModalHeaderProps> = ({ title, backIcon = 'x' }) => {
+const ModalHeader: React.FC<ModalHeaderProps> = ({
+  title,
+  backIcon = 'x',
+  RightComponent,
+}) => {
   const navigation = useNavigation();
 
   return (
@@ -32,7 +37,7 @@ const ModalHeader: React.FC<ModalHeaderProps> = ({ title, backIcon = 'x' }) => {
       <View>
         <Text style={{ fontSize: 18, color: colors.white }}>{title}</Text>
       </View>
-      <View></View>
+      <View>{RightComponent}</View>
     </View>
   );
 };

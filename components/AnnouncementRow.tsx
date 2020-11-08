@@ -102,6 +102,9 @@ const AnnouncementRow: React.FC<AnnouncementRowProps> = ({ announcement }) => {
 
       <View style={TITLE_CONTENT_HOLDER}>
         <Text style={TITLE_STYLE}>{announcement.title}</Text>
+        {announcement.draft && (
+          <Text style={{ marginTop: 5, color: colors.danger }}>[DRAFT]</Text>
+        )}
         <Text style={CONTENT_STYLE} numberOfLines={3}>
           {announcement.content}
         </Text>

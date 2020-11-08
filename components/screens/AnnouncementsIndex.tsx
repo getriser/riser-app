@@ -14,6 +14,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchAnnouncements } from '../../redux/slices/AnnouncementsSlice';
 import AnnouncementRow from '../AnnouncementRow';
 import Loading from '../Loading';
+import IconButton from '../IconButton';
+import { canAddAnnouncement } from '../../utils/AuthorizationUtils';
 
 type AnnouncementsIndexNavigationProps = StackNavigationProp<
   AnnouncementsParams,
@@ -40,9 +42,21 @@ const AnnouncementsIndex: React.FC<AnnouncementsIndexProps> = ({
     }
   }, [dispatch, announcements]);
 
+  const RightComponent = (
+    <IconButton
+      onPress={() => navigation.navigate('CreateAnnouncement')}
+      iconName={'edit'}
+    />
+  );
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <PageHeader text={'Announcements'} />
+      <PageHeader
+        text={'Announcements'}
+        RightComponent={
+          canAddAnnouncement(currentOrganization!.role) ? RightComponent : null
+        }
+      />
       <View style={{ flex: 1 }}>
         {isLoading && !announcements ? (
           <Loading />

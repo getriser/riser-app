@@ -18,6 +18,7 @@ import { RootState } from './redux/rootReducer';
 import ChooseOrganization from './components/screens/ChooseOrganization';
 import colors from './styles/colors';
 import TabBarIcon from './components/TabBarIcon';
+import CreateAnnouncement from './components/screens/CreateAnnouncement';
 
 interface EntryPointProps {}
 
@@ -40,6 +41,12 @@ function AnnouncementsStackScreen() {
       <AnnouncementsStack.Screen
         name="AnnouncementsDetail"
         component={AnnouncementsDetail}
+      />
+
+      <AnnouncementsStack.Screen
+        name="CreateAnnouncement"
+        component={CreateAnnouncement}
+        options={{ ...modalTransitionPreset }}
       />
     </AnnouncementsStack.Navigator>
   );

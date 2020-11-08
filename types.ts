@@ -1,8 +1,9 @@
-import {AnnouncementResponse} from './api';
+import { AnnouncementResponse } from './api';
 
 export type AnnouncementsParams = {
   AnnouncementsIndex: undefined;
   AnnouncementsDetail: { id: number };
+  CreateAnnouncement: undefined;
 };
 
 export type MembersParams = {

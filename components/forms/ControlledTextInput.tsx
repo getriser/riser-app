@@ -5,7 +5,9 @@ import {
   ReturnKeyTypeOptions,
   Text,
   TextInput,
+  TextInputEndEditingEventData,
   TextInputSubmitEditingEventData,
+  TextStyle,
   View,
 } from 'react-native';
 import { Controller, Control, FieldErrors } from 'react-hook-form';
@@ -16,6 +18,7 @@ interface ControlledTextInputProps {
   control: Control;
   errors: FieldErrors;
   name: string;
+  inputStyle?: TextStyle;
   label?: string;
   placeholder?: string;
   defaultValue?: string;
@@ -24,6 +27,10 @@ interface ControlledTextInputProps {
   returnKeyType?: ReturnKeyTypeOptions;
   onSubmitEditing?: (
     e: NativeSyntheticEvent<TextInputSubmitEditingEventData>,
+  ) => void;
+  multiline?: boolean;
+  onEndEditing?: (
+    e: NativeSyntheticEvent<TextInputEndEditingEventData>,
   ) => void;
   autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
   autoCompleteType?:
@@ -55,6 +62,9 @@ const ControlledTextInput: React.FC<ControlledTextInputProps> = ({
   autoCompleteType,
   returnKeyType,
   onSubmitEditing,
+  multiline,
+  onEndEditing,
+  inputStyle,
 }) => {
   const hasErrors = errors[name];
 
@@ -83,6 +93,7 @@ const ControlledTextInput: React.FC<ControlledTextInputProps> = ({
                 paddingHorizontal: 10,
                 borderRadius: 5,
               },
+              inputStyle,
             ]}
             onBlur={onBlur}
             onChangeText={(value) => onChange(value)}
@@ -94,6 +105,9 @@ const ControlledTextInput: React.FC<ControlledTextInputProps> = ({
             autoCompleteType={autoCompleteType}
             returnKeyType={returnKeyType}
             onSubmitEditing={onSubmitEditing}
+            onEndEditing={onEndEditing}
+            multiline={multiline}
+            textAlignVertical={multiline ? 'top' : undefined}
           />
         )}
         name={name}
