@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {  AnnouncementResponse } from '../../api';
+import { AnnouncementResponse } from '../../api';
 import { View } from 'react-native';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -26,13 +26,9 @@ const AddComment: React.FC<AddCommentProps> = ({ announcement }) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const {
-    handleSubmit,
-    control,
-    errors,
-    clearErrors,
-    reset,
-  } = useForm<AddCommentFields>({
+  const { handleSubmit, control, errors, clearErrors, reset } = useForm<
+    AddCommentFields
+  >({
     resolver: yupResolver(schema),
   });
 
@@ -62,6 +58,8 @@ const AddComment: React.FC<AddCommentProps> = ({ announcement }) => {
           control={control}
           errors={errors}
           name={'comment'}
+          returnKeyType={'send'}
+          onSubmitEditing={handleSubmit(onSubmit)}
         />
       </View>
       <View style={{ marginBottom: 10 }}>

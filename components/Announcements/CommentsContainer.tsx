@@ -61,7 +61,7 @@ const CommentsContainer: React.FC<CommentsContainerProps> = ({
       )}
 
       {comments.map((comment) => (
-        <CommentRow comment={comment} />
+        <CommentRow key={comment.id} comment={comment} />
       ))}
 
       <AddComment announcement={announcement} />

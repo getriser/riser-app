@@ -1,5 +1,13 @@
 import React from 'react';
-import { KeyboardTypeOptions, Text, TextInput, View } from 'react-native';
+import {
+  KeyboardTypeOptions,
+  NativeSyntheticEvent,
+  ReturnKeyTypeOptions,
+  Text,
+  TextInput,
+  TextInputSubmitEditingEventData,
+  View,
+} from 'react-native';
 import { Controller, Control, FieldErrors } from 'react-hook-form';
 import colors from '../../styles/colors';
 import { human } from 'react-native-typography';
@@ -13,6 +21,25 @@ interface ControlledTextInputProps {
   defaultValue?: string;
   keyboardType?: KeyboardTypeOptions;
   secureTextEntry?: boolean;
+  returnKeyType?: ReturnKeyTypeOptions;
+  onSubmitEditing?: (
+    e: NativeSyntheticEvent<TextInputSubmitEditingEventData>,
+  ) => void;
+  autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
+  autoCompleteType?:
+    | 'cc-csc'
+    | 'cc-exp'
+    | 'cc-exp-month'
+    | 'cc-exp-year'
+    | 'cc-number'
+    | 'email'
+    | 'name'
+    | 'password'
+    | 'postal-code'
+    | 'street-address'
+    | 'tel'
+    | 'username'
+    | 'off';
 }
 
 const ControlledTextInput: React.FC<ControlledTextInputProps> = ({
@@ -24,6 +51,10 @@ const ControlledTextInput: React.FC<ControlledTextInputProps> = ({
   defaultValue = '',
   keyboardType,
   secureTextEntry,
+  autoCapitalize,
+  autoCompleteType,
+  returnKeyType,
+  onSubmitEditing,
 }) => {
   const hasErrors = errors[name];
 
@@ -59,6 +90,10 @@ const ControlledTextInput: React.FC<ControlledTextInputProps> = ({
             keyboardType={keyboardType}
             secureTextEntry={secureTextEntry}
             placeholder={placeholder}
+            autoCapitalize={autoCapitalize}
+            autoCompleteType={autoCompleteType}
+            returnKeyType={returnKeyType}
+            onSubmitEditing={onSubmitEditing}
           />
         )}
         name={name}

@@ -65,6 +65,8 @@ const Login: React.FC<LoginProps> = ({}) => {
           control={control}
           errors={errors}
           name={'email'}
+          autoCapitalize={'none'}
+          autoCompleteType={'email'}
         />
 
         <ControlledTextInput
@@ -72,6 +74,9 @@ const Login: React.FC<LoginProps> = ({}) => {
           control={control}
           errors={errors}
           name={'password'}
+          autoCompleteType={'password'}
+          returnKeyType={'go'}
+          onSubmitEditing={handleSubmit(onSubmit)}
           secureTextEntry
         />
 
