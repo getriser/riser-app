@@ -9,6 +9,7 @@ import ControlledTextInput from '../forms/ControlledTextInput';
 import RiserButton from '../forms/RiserButton';
 import { useDispatch } from 'react-redux';
 import { postComment } from '../../redux/slices/AnnouncementsSlice';
+import ApiErrors from '../forms/ApiErrors';
 
 interface AddCommentProps {
   announcement: AnnouncementResponse;
@@ -44,29 +45,32 @@ const AddComment: React.FC<AddCommentProps> = ({ announcement }) => {
   };
 
   return (
-    <View
-      style={{
-        flex: 1,
-        flexDirection: 'row',
-        paddingHorizontal: 15,
-        marginTop: 10,
-        alignItems: 'center',
-      }}>
-      <View style={{ width: '80%', marginRight: 5 }}>
-        <ControlledTextInput
-          placeholder={'Add a comment...'}
-          control={control}
-          errors={errors}
-          name={'comment'}
-          returnKeyType={'send'}
-          onSubmitEditing={handleSubmit(onSubmit)}
-        />
-      </View>
-      <View style={{ marginBottom: 10 }}>
-        <RiserButton
-          text={isLoading ? '...' : 'Send'}
-          onPress={handleSubmit(onSubmit)}
-        />
+    <View>
+      <ApiErrors errors={errors} />
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          paddingHorizontal: 15,
+          marginTop: 10,
+          alignItems: 'center',
+        }}>
+        <View style={{ width: '80%', marginRight: 5 }}>
+          <ControlledTextInput
+            placeholder={'Add a comment...'}
+            control={control}
+            errors={errors}
+            name={'comment'}
+            returnKeyType={'send'}
+            onSubmitEditing={handleSubmit(onSubmit)}
+          />
+        </View>
+        <View style={{ marginBottom: 10 }}>
+          <RiserButton
+            text={isLoading ? '...' : 'Send'}
+            onPress={handleSubmit(onSubmit)}
+          />
+        </View>
       </View>
     </View>
   );
