@@ -153,6 +153,25 @@ export interface CreateAnnouncementBodyParams {
 /**
  *
  * @export
+ * @interface CreateFolderBody
+ */
+export interface CreateFolderBody {
+    /**
+     *
+     * @type {string}
+     * @memberof CreateFolderBody
+     */
+    name: string;
+    /**
+     *
+     * @type {number}
+     * @memberof CreateFolderBody
+     */
+    parentId: number;
+}
+/**
+ *
+ * @export
  * @interface CreateOrganizationParams
  */
 export interface CreateOrganizationParams {
@@ -181,6 +200,66 @@ export interface CreateOrganizationResponse {
      * @memberof CreateOrganizationResponse
      */
     name: string;
+}
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+export enum FileFolderType {
+    FOLDER = 'FOLDER',
+    FILE = 'FILE'
+}
+
+/**
+ *
+ * @export
+ * @interface FileResponse
+ */
+export interface FileResponse {
+    /**
+     *
+     * @type {number}
+     * @memberof FileResponse
+     */
+    id: number;
+    /**
+     *
+     * @type {string}
+     * @memberof FileResponse
+     */
+    name: string;
+    /**
+     *
+     * @type {FileFolderType}
+     * @memberof FileResponse
+     */
+    type: FileFolderType;
+    /**
+     *
+     * @type {string}
+     * @memberof FileResponse
+     */
+    filePath: string;
+}
+/**
+ *
+ * @export
+ * @interface GetFilesResponse
+ */
+export interface GetFilesResponse {
+    /**
+     *
+     * @type {number}
+     * @memberof GetFilesResponse
+     */
+    parentFolderId: number;
+    /**
+     *
+     * @type {Array<FileResponse>}
+     * @memberof GetFilesResponse
+     */
+    files: Array<FileResponse>;
 }
 /**
  *
@@ -1066,6 +1145,198 @@ export class AuthControllerApi extends BaseAPI {
 
 
 /**
+ * FileControllerApi - axios parameter creator
+ * @export
+ */
+export const FileControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         *
+         * @param {CreateFolderBody} createFolderBody
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createFolder: async (createFolderBody: CreateFolderBody, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'createFolderBody' is not null or undefined
+            if (createFolderBody === null || createFolderBody === undefined) {
+                throw new RequiredError('createFolderBody','Required parameter createFolderBody was null or undefined when calling createFolder.');
+            }
+            const localVarPath = `/files/folders`;
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication jwt required
+            if (configuration && configuration.apiKey) {
+                const localVarApiKeyValue = typeof configuration.apiKey === 'function'
+                    ? await configuration.apiKey("x-access-token")
+                    : await configuration.apiKey;
+                localVarHeaderParameter["x-access-token"] = localVarApiKeyValue;
+            }
+
+
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof createFolderBody !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(createFolderBody !== undefined ? createFolderBody : {}) : (createFolderBody || "");
+
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         *
+         * @param {number} id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getFilesFromFolder: async (id: number, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new RequiredError('id','Required parameter id was null or undefined when calling getFilesFromFolder.');
+            }
+            const localVarPath = `/files/folders/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication jwt required
+            if (configuration && configuration.apiKey) {
+                const localVarApiKeyValue = typeof configuration.apiKey === 'function'
+                    ? await configuration.apiKey("x-access-token")
+                    : await configuration.apiKey;
+                localVarHeaderParameter["x-access-token"] = localVarApiKeyValue;
+            }
+
+
+
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * FileControllerApi - functional programming interface
+ * @export
+ */
+export const FileControllerApiFp = function(configuration?: Configuration) {
+    return {
+        /**
+         *
+         * @param {CreateFolderBody} createFolderBody
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createFolder(createFolderBody: CreateFolderBody, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FileResponse>> {
+            const localVarAxiosArgs = await FileControllerApiAxiosParamCreator(configuration).createFolder(createFolderBody, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         *
+         * @param {number} id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getFilesFromFolder(id: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FileResponse>>> {
+            const localVarAxiosArgs = await FileControllerApiAxiosParamCreator(configuration).getFilesFromFolder(id, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+    }
+};
+
+/**
+ * FileControllerApi - factory interface
+ * @export
+ */
+export const FileControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    return {
+        /**
+         *
+         * @param {CreateFolderBody} createFolderBody
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createFolder(createFolderBody: CreateFolderBody, options?: any): AxiosPromise<FileResponse> {
+            return FileControllerApiFp(configuration).createFolder(createFolderBody, options).then((request) => request(axios, basePath));
+        },
+        /**
+         *
+         * @param {number} id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getFilesFromFolder(id: number, options?: any): AxiosPromise<Array<FileResponse>> {
+            return FileControllerApiFp(configuration).getFilesFromFolder(id, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * FileControllerApi - object-oriented interface
+ * @export
+ * @class FileControllerApi
+ * @extends {BaseAPI}
+ */
+export class FileControllerApi extends BaseAPI {
+    /**
+     *
+     * @param {CreateFolderBody} createFolderBody
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FileControllerApi
+     */
+    public createFolder(createFolderBody: CreateFolderBody, options?: any) {
+        return FileControllerApiFp(this.configuration).createFolder(createFolderBody, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     *
+     * @param {number} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FileControllerApi
+     */
+    public getFilesFromFolder(id: number, options?: any) {
+        return FileControllerApiFp(this.configuration).getFilesFromFolder(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+}
+
+
+/**
  * OrganizationControllerApi - axios parameter creator
  * @export
  */
@@ -1155,6 +1426,49 @@ export const OrganizationControllerApiAxiosParamCreator = function (configuratio
 
             if (limit !== undefined) {
                 localVarQueryParameter['limit'] = limit;
+            }
+
+
+
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         *
+         * @param {number} id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getFiles: async (id: number, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new RequiredError('id','Required parameter id was null or undefined when calling getFiles.');
+            }
+            const localVarPath = `/organizations/{id}/files`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication jwt required
+            if (configuration && configuration.apiKey) {
+                const localVarApiKeyValue = typeof configuration.apiKey === 'function'
+                    ? await configuration.apiKey("x-access-token")
+                    : await configuration.apiKey;
+                localVarHeaderParameter["x-access-token"] = localVarApiKeyValue;
             }
 
 
@@ -1345,6 +1659,19 @@ export const OrganizationControllerApiFp = function(configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        async getFiles(id: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetFilesResponse>> {
+            const localVarAxiosArgs = await OrganizationControllerApiAxiosParamCreator(configuration).getFiles(id, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         *
+         * @param {number} id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         async getMembers(id: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Member>>> {
             const localVarAxiosArgs = await OrganizationControllerApiAxiosParamCreator(configuration).getMembers(id, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
@@ -1413,6 +1740,15 @@ export const OrganizationControllerApiFactory = function (configuration?: Config
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        getFiles(id: number, options?: any): AxiosPromise<GetFilesResponse> {
+            return OrganizationControllerApiFp(configuration).getFiles(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         *
+         * @param {number} id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         getMembers(id: number, options?: any): AxiosPromise<Array<Member>> {
             return OrganizationControllerApiFp(configuration).getMembers(id, options).then((request) => request(axios, basePath));
         },
@@ -1466,6 +1802,17 @@ export class OrganizationControllerApi extends BaseAPI {
      */
     public getAnnouncements(id: number, offset?: number, limit?: number, options?: any) {
         return OrganizationControllerApiFp(this.configuration).getAnnouncements(id, offset, limit, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     *
+     * @param {number} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OrganizationControllerApi
+     */
+    public getFiles(id: number, options?: any) {
+        return OrganizationControllerApiFp(this.configuration).getFiles(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

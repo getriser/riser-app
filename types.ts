@@ -1,5 +1,11 @@
 import { AnnouncementResponse } from './api';
 
+export type FilesParams = {
+  FilesIndex: undefined;
+  FolderDetail: { id: number };
+  CreateFolder: { id: number };
+};
+
 export type AnnouncementsParams = {
   AnnouncementsIndex: undefined;
   AnnouncementsDetail: { id: number };

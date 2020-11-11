@@ -4,7 +4,7 @@ import {
   createStackNavigator,
   TransitionPresets,
 } from '@react-navigation/stack';
-import { AnnouncementsParams, MembersParams } from './types';
+import { AnnouncementsParams, FilesParams, MembersParams } from './types';
 import AnnouncementsIndex from './components/screens/AnnouncementsIndex';
 import AnnouncementsDetail from './components/screens/AnnouncementsDetail';
 import MembersIndex from './components/screens/MembersIndex';
@@ -19,6 +19,9 @@ import ChooseOrganization from './components/screens/ChooseOrganization';
 import colors from './styles/colors';
 import TabBarIcon from './components/TabBarIcon';
 import CreateAnnouncement from './components/screens/CreateAnnouncement';
+import FilesIndex from './components/screens/FilesIndex';
+import CreateFolder from './components/screens/CreateFolder';
+import FolderDetail from './components/screens/FolderDetail';
 
 interface EntryPointProps {}
 
@@ -65,6 +68,22 @@ function MembersStackScreen() {
         options={{ ...modalTransitionPreset }}
       />
     </MembersStack.Navigator>
+  );
+}
+
+const FilesStack = createStackNavigator<FilesParams>();
+
+function FilesStackScreen() {
+  return (
+    <FilesStack.Navigator screenOptions={{ headerShown: false }}>
+      <FilesStack.Screen name={'FilesIndex'} component={FilesIndex} />
+      <FilesStack.Screen name={'FolderDetail'} component={FolderDetail} />
+      <FilesStack.Screen
+        name={'CreateFolder'}
+        component={CreateFolder}
+        options={{ ...modalTransitionPreset }}
+      />
+    </FilesStack.Navigator>
   );
 }
 
@@ -116,6 +135,17 @@ const EntryPoint: React.FC<EntryPointProps> = ({}) => {
               ),
             }}
           />
+
+          <Tab.Screen
+            name="Files"
+            component={FilesStackScreen}
+            options={{
+              tabBarIcon: ({ focused }) => (
+                <TabBarIcon icon={'file'} focused={focused} />
+              ),
+            }}
+          />
+
           <Tab.Screen
             name="Members"
             component={MembersStackScreen}
