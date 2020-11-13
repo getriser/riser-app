@@ -2,8 +2,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IdMapping } from '../../types';
 import {
   CreateFolderBody,
-  FileControllerApi,
   FileResponse,
+  FolderControllerApi,
   OrganizationControllerApi,
   OrganizationResponse,
 } from '../../api';
@@ -106,7 +106,7 @@ export const getFilesForFolder = (folderId: number): AppThunk => async (
   dispatch(setLoading(true));
 
   try {
-    const api = new FileControllerApi(getConfiguration());
+    const api = new FolderControllerApi(getConfiguration());
     const response = await api.getFilesFromFolder(folderId);
 
     dispatch(setChildrenFiles({ parentId: folderId, files: response.data }));
@@ -123,7 +123,7 @@ export const createFolder = (data: CreateFolderBody): AppThunk => async (
   dispatch(setLoading(true));
 
   try {
-    const api = new FileControllerApi(getConfiguration());
+    const api = new FolderControllerApi(getConfiguration());
     const response = await api.createFolder(data);
 
     dispatch(
