@@ -264,6 +264,19 @@ export interface GetFilesResponse {
 /**
  *
  * @export
+ * @interface InlineObject
+ */
+export interface InlineObject {
+    /**
+     *
+     * @type {any}
+     * @memberof InlineObject
+     */
+    file?: any;
+}
+/**
+ *
+ * @export
  * @interface InviteMemberBody
  */
 export interface InviteMemberBody {
@@ -1242,10 +1255,11 @@ export const FolderControllerApiAxiosParamCreator = function (configuration?: Co
         /**
          *
          * @param {number} id
+         * @param {any} [file]
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadFile: async (id: number, options: any = {}): Promise<RequestArgs> => {
+        uploadFile: async (id: number, file?: any, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             if (id === null || id === undefined) {
                 throw new RequiredError('id','Required parameter id was null or undefined when calling uploadFile.');
@@ -1260,6 +1274,7 @@ export const FolderControllerApiAxiosParamCreator = function (configuration?: Co
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+            const localVarFormParams = new FormData();
 
             // authentication jwt required
             if (configuration && configuration.apiKey) {
@@ -1270,12 +1285,19 @@ export const FolderControllerApiAxiosParamCreator = function (configuration?: Co
             }
 
 
+            if (file !== undefined) {
+                localVarFormParams.append('file', file as any);
+            }
+
+
+            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
 
             localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
             delete localVarUrlObj.search;
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = localVarFormParams;
 
             return {
                 url: globalImportUrl.format(localVarUrlObj),
@@ -1320,11 +1342,12 @@ export const FolderControllerApiFp = function(configuration?: Configuration) {
         /**
          *
          * @param {number} id
+         * @param {any} [file]
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async uploadFile(id: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FileResponse>> {
-            const localVarAxiosArgs = await FolderControllerApiAxiosParamCreator(configuration).uploadFile(id, options);
+        async uploadFile(id: number, file?: any, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FileResponse>> {
+            const localVarAxiosArgs = await FolderControllerApiAxiosParamCreator(configuration).uploadFile(id, file, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -1360,11 +1383,12 @@ export const FolderControllerApiFactory = function (configuration?: Configuratio
         /**
          *
          * @param {number} id
+         * @param {any} [file]
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadFile(id: number, options?: any): AxiosPromise<FileResponse> {
-            return FolderControllerApiFp(configuration).uploadFile(id, options).then((request) => request(axios, basePath));
+        uploadFile(id: number, file?: any, options?: any): AxiosPromise<FileResponse> {
+            return FolderControllerApiFp(configuration).uploadFile(id, file, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1401,12 +1425,13 @@ export class FolderControllerApi extends BaseAPI {
     /**
      *
      * @param {number} id
+     * @param {any} [file]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FolderControllerApi
      */
-    public uploadFile(id: number, options?: any) {
-        return FolderControllerApiFp(this.configuration).uploadFile(id, options).then((request) => request(this.axios, this.basePath));
+    public uploadFile(id: number, file?: any, options?: any) {
+        return FolderControllerApiFp(this.configuration).uploadFile(id, file, options).then((request) => request(this.axios, this.basePath));
     }
 
 }
