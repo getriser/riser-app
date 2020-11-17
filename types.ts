@@ -4,6 +4,7 @@ export type FilesParams = {
   FilesIndex: undefined;
   FolderDetail: { id: number };
   CreateFolder: { id: number };
+  UpdateFolder: { id: number };
 };
 
 export type AnnouncementsParams = {

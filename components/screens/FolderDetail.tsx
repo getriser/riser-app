@@ -1,26 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { ListItem } from 'react-native-elements';
 import { FilesParams } from '../../types';
-import {
-  FlatList,
-  SafeAreaView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { SafeAreaView, View } from 'react-native';
 import { RootState } from '../../redux/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import Loading from '../Loading';
 import IconButton from '../IconButton';
 import { canAddFilesFolders } from '../../utils/AuthorizationUtils';
-import {
-  getFilesForFolder,
-  getRootFolderForOrganization,
-} from '../../redux/slices/FilesSlice';
+import { getFilesForFolder } from '../../redux/slices/FilesSlice';
 import { RouteProp } from '@react-navigation/native';
 import ModalHeader from '../ModalHeader';
 import colors from '../../styles/colors';
+import FileFolderList from '../Files/FileFolderList';
+import ActionSheet from 'react-native-actions-sheet';
 
 type FolderDetailNavigationProps = StackNavigationProp<
   FilesParams,
@@ -36,6 +28,8 @@ interface FolderDetailProps {
 
 const FolderDetail: React.FC<FolderDetailProps> = ({ navigation, route }) => {
   const dispatch = useDispatch();
+  const actionSheetRef = useRef<ActionSheet>();
+
   const folderId = route.params.id;
 
   const {
@@ -52,12 +46,9 @@ const FolderDetail: React.FC<FolderDetailProps> = ({ navigation, route }) => {
 
   const RightComponent = (
     <IconButton
-      onPress={() =>
-        navigation.navigate('CreateFolder', {
-          id: folderId,
-        })
-      }
-      iconName={'file-plus'}
+      containerStyle={{ padding: undefined }}
+      onPress={() => navigation.navigate('UpdateFolder', { id: folderId })}
+      iconName={'edit'}
     />
   );
 
@@ -74,41 +65,11 @@ const FolderDetail: React.FC<FolderDetailProps> = ({ navigation, route }) => {
         {loading && !files ? (
           <Loading />
         ) : (
-          <FlatList
-            contentContainerStyle={{ flexGrow: 1 }}
-            data={files}
-            refreshing={loading}
-            onRefresh={() =>
-              dispatch(getRootFolderForOrganization(currentOrganization!))
-            }
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.push('FolderDetail', { id: item.id })
-                }>
-                <ListItem
-                  leftAvatar={{
-                    icon: { type: 'feather', name: 'file' },
-                    iconStyle: { color: '#000' },
-                    overlayContainerStyle: { backgroundColor: '#000' },
-                  }}
-                  title={item.name}
-                  chevron
-                />
-              </TouchableOpacity>
-            )}
-            ListEmptyComponent={() => (
-              <>
-                <Text style={{ textAlign: 'center', marginTop: 20 }}>
-                  There are no files uploaded.
-                </Text>
-                <Text style={{ textAlign: 'center', marginTop: 10 }}>
-                  Click on the top right icon to begin uploading files and
-                  folders.
-                </Text>
-              </>
-            )}
+          <FileFolderList
+            folderId={folder.id}
+            isLoading={loading}
+            onRefresh={() => dispatch(getFilesForFolder(folder.id))}
+            actionSheetRef={actionSheetRef}
           />
         )}
       </View>

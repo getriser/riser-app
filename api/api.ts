@@ -237,6 +237,12 @@ export interface FileResponse {
     type: FileFolderType;
     /**
      *
+     * @type {number}
+     * @memberof FileResponse
+     */
+    parentFolderId: number;
+    /**
+     *
      * @type {string}
      * @memberof FileResponse
      */
@@ -527,6 +533,19 @@ export interface UpdateAnnouncementParams {
      * @memberof UpdateAnnouncementParams
      */
     content: string;
+}
+/**
+ *
+ * @export
+ * @interface UpdateFileFolderRequest
+ */
+export interface UpdateFileFolderRequest {
+    /**
+     *
+     * @type {string}
+     * @memberof UpdateFileFolderRequest
+     */
+    name: string;
 }
 
 /**
@@ -1158,6 +1177,131 @@ export class AuthControllerApi extends BaseAPI {
 
 
 /**
+ * FileControllerApi - axios parameter creator
+ * @export
+ */
+export const FileControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         *
+         * @param {number} id
+         * @param {UpdateFileFolderRequest} updateFileFolderRequest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateFile: async (id: number, updateFileFolderRequest: UpdateFileFolderRequest, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new RequiredError('id','Required parameter id was null or undefined when calling updateFile.');
+            }
+            // verify required parameter 'updateFileFolderRequest' is not null or undefined
+            if (updateFileFolderRequest === null || updateFileFolderRequest === undefined) {
+                throw new RequiredError('updateFileFolderRequest','Required parameter updateFileFolderRequest was null or undefined when calling updateFile.');
+            }
+            const localVarPath = `/files/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication jwt required
+            if (configuration && configuration.apiKey) {
+                const localVarApiKeyValue = typeof configuration.apiKey === 'function'
+                    ? await configuration.apiKey("x-access-token")
+                    : await configuration.apiKey;
+                localVarHeaderParameter["x-access-token"] = localVarApiKeyValue;
+            }
+
+
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof updateFileFolderRequest !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(updateFileFolderRequest !== undefined ? updateFileFolderRequest : {}) : (updateFileFolderRequest || "");
+
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * FileControllerApi - functional programming interface
+ * @export
+ */
+export const FileControllerApiFp = function(configuration?: Configuration) {
+    return {
+        /**
+         *
+         * @param {number} id
+         * @param {UpdateFileFolderRequest} updateFileFolderRequest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateFile(id: number, updateFileFolderRequest: UpdateFileFolderRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FileResponse>> {
+            const localVarAxiosArgs = await FileControllerApiAxiosParamCreator(configuration).updateFile(id, updateFileFolderRequest, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+    }
+};
+
+/**
+ * FileControllerApi - factory interface
+ * @export
+ */
+export const FileControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    return {
+        /**
+         *
+         * @param {number} id
+         * @param {UpdateFileFolderRequest} updateFileFolderRequest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateFile(id: number, updateFileFolderRequest: UpdateFileFolderRequest, options?: any): AxiosPromise<FileResponse> {
+            return FileControllerApiFp(configuration).updateFile(id, updateFileFolderRequest, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * FileControllerApi - object-oriented interface
+ * @export
+ * @class FileControllerApi
+ * @extends {BaseAPI}
+ */
+export class FileControllerApi extends BaseAPI {
+    /**
+     *
+     * @param {number} id
+     * @param {UpdateFileFolderRequest} updateFileFolderRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FileControllerApi
+     */
+    public updateFile(id: number, updateFileFolderRequest: UpdateFileFolderRequest, options?: any) {
+        return FileControllerApiFp(this.configuration).updateFile(id, updateFileFolderRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+}
+
+
+/**
  * FolderControllerApi - axios parameter creator
  * @export
  */
@@ -1255,6 +1399,58 @@ export const FolderControllerApiAxiosParamCreator = function (configuration?: Co
         /**
          *
          * @param {number} id
+         * @param {UpdateFileFolderRequest} updateFileFolderRequest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateFolder: async (id: number, updateFileFolderRequest: UpdateFileFolderRequest, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new RequiredError('id','Required parameter id was null or undefined when calling updateFolder.');
+            }
+            // verify required parameter 'updateFileFolderRequest' is not null or undefined
+            if (updateFileFolderRequest === null || updateFileFolderRequest === undefined) {
+                throw new RequiredError('updateFileFolderRequest','Required parameter updateFileFolderRequest was null or undefined when calling updateFolder.');
+            }
+            const localVarPath = `/folders/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication jwt required
+            if (configuration && configuration.apiKey) {
+                const localVarApiKeyValue = typeof configuration.apiKey === 'function'
+                    ? await configuration.apiKey("x-access-token")
+                    : await configuration.apiKey;
+                localVarHeaderParameter["x-access-token"] = localVarApiKeyValue;
+            }
+
+
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof updateFileFolderRequest !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(updateFileFolderRequest !== undefined ? updateFileFolderRequest : {}) : (updateFileFolderRequest || "");
+
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         *
+         * @param {number} id
          * @param {any} [file]
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1342,6 +1538,20 @@ export const FolderControllerApiFp = function(configuration?: Configuration) {
         /**
          *
          * @param {number} id
+         * @param {UpdateFileFolderRequest} updateFileFolderRequest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateFolder(id: number, updateFileFolderRequest: UpdateFileFolderRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FileResponse>> {
+            const localVarAxiosArgs = await FolderControllerApiAxiosParamCreator(configuration).updateFolder(id, updateFileFolderRequest, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         *
+         * @param {number} id
          * @param {any} [file]
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1383,6 +1593,16 @@ export const FolderControllerApiFactory = function (configuration?: Configuratio
         /**
          *
          * @param {number} id
+         * @param {UpdateFileFolderRequest} updateFileFolderRequest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateFolder(id: number, updateFileFolderRequest: UpdateFileFolderRequest, options?: any): AxiosPromise<FileResponse> {
+            return FolderControllerApiFp(configuration).updateFolder(id, updateFileFolderRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         *
+         * @param {number} id
          * @param {any} [file]
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1420,6 +1640,18 @@ export class FolderControllerApi extends BaseAPI {
      */
     public getFilesFromFolder(id: number, options?: any) {
         return FolderControllerApiFp(this.configuration).getFilesFromFolder(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     *
+     * @param {number} id
+     * @param {UpdateFileFolderRequest} updateFileFolderRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FolderControllerApi
+     */
+    public updateFolder(id: number, updateFileFolderRequest: UpdateFileFolderRequest, options?: any) {
+        return FolderControllerApiFp(this.configuration).updateFolder(id, updateFileFolderRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

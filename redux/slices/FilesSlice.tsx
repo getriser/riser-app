@@ -7,6 +7,7 @@ import {
   FolderControllerApi,
   OrganizationControllerApi,
   OrganizationResponse,
+  UpdateFileFolderRequest,
 } from '../../api';
 import { AppThunk } from '../store';
 import { getConfiguration } from '../../utils/ApiUtils';
@@ -80,6 +81,20 @@ const FilesSlice = createSlice({
         }
       });
     },
+
+    updateFolderAction(state, action: PayloadAction<FileResponse>) {
+      let folder = action.payload;
+      state.foldersById[folder.id] = folder;
+
+      const existingFiles = state.folderToChildren[
+        folder.parentFolderId
+      ].filter((f) => f.id !== folder.id);
+
+      state.folderToChildren[folder.parentFolderId] = [
+        ...existingFiles,
+        folder,
+      ];
+    },
   },
 });
 
@@ -88,6 +103,7 @@ export const {
   setChildrenFiles,
   appendToFolder,
   setLoading,
+  updateFolderAction,
 } = FilesSlice.actions;
 
 export const getRootFolderForOrganization = (
@@ -150,6 +166,22 @@ export const createFolder = (data: CreateFolderBody): AppThunk => async (
     dispatch(
       appendToFolder({ parentId: data.parentId, files: [response.data] }),
     );
+  } catch (e) {
+    Logger.error('Error thrown while trying to fetch root files.');
+  } finally {
+    dispatch(setLoading(false));
+  }
+};
+
+export const updateFolder = (
+  folderId: number,
+  data: UpdateFileFolderRequest,
+): AppThunk => async (dispatch) => {
+  try {
+    const api = new FolderControllerApi(getConfiguration());
+    const response = await api.updateFolder(folderId, data);
+
+    dispatch(updateFolderAction(response.data));
   } catch (e) {
     Logger.error('Error thrown while trying to fetch root files.');
   } finally {

@@ -22,6 +22,7 @@ import CreateAnnouncement from './components/screens/CreateAnnouncement';
 import FilesIndex from './components/screens/FilesIndex';
 import CreateFolder from './components/screens/CreateFolder';
 import FolderDetail from './components/screens/FolderDetail';
+import UpdateFolder from './components/screens/UpdateFolder';
 
 interface EntryPointProps {}
 
@@ -81,6 +82,12 @@ function FilesStackScreen() {
       <FilesStack.Screen
         name={'CreateFolder'}
         component={CreateFolder}
+        options={{ ...modalTransitionPreset }}
+      />
+
+      <FilesStack.Screen
+        name={'UpdateFolder'}
+        component={UpdateFolder}
         options={{ ...modalTransitionPreset }}
       />
     </FilesStack.Navigator>
