@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IdMapping } from '../../types';
 import {
   CreateFolderBody,
+  FileFolderType,
   FileResponse,
   FolderControllerApi,
   OrganizationControllerApi,
@@ -25,12 +26,16 @@ interface FilesSliceState {
   loading: boolean;
   organizationIdToRootFolderId: IdMapping<number>;
   folderToChildren: IdMapping<FileResponse[]>;
+  filesById: IdMapping<FileResponse>;
+  foldersById: IdMapping<FileResponse>;
 }
 
 const initialState: FilesSliceState = {
   loading: false,
   organizationIdToRootFolderId: {},
   folderToChildren: {},
+  filesById: {},
+  foldersById: {},
 };
 
 const FilesSlice = createSlice({
@@ -49,6 +54,14 @@ const FilesSlice = createSlice({
     },
     setChildrenFiles(state, action: PayloadAction<ParentFolderToFiles>) {
       state.folderToChildren[action.payload.parentId] = action.payload.files;
+
+      action.payload.files.forEach((fileOrFolder) => {
+        if (fileOrFolder.type === FileFolderType.FILE) {
+          state.filesById[fileOrFolder.id] = fileOrFolder;
+        } else if (fileOrFolder.type === FileFolderType.FOLDER) {
+          state.foldersById[fileOrFolder.id] = fileOrFolder;
+        }
+      });
     },
     appendToFolder(state, action: PayloadAction<ParentFolderToFiles>) {
       const existingFiles =
@@ -58,6 +71,14 @@ const FilesSlice = createSlice({
         ...action.payload.files,
         ...existingFiles,
       ];
+
+      action.payload.files.forEach((fileOrFolder) => {
+        if (fileOrFolder.type === FileFolderType.FILE) {
+          state.filesById[fileOrFolder.id] = fileOrFolder;
+        } else if (fileOrFolder.type === FileFolderType.FOLDER) {
+          state.foldersById[fileOrFolder.id] = fileOrFolder;
+        }
+      });
     },
   },
 });

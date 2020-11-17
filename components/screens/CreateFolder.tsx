@@ -61,6 +61,8 @@ const CreateFolder: React.FC<CreateFolderProps> = ({ navigation, route }) => {
             control={control}
             errors={errors}
             name={'name'}
+            returnKeyType={'go'}
+            onSubmitEditing={handleSubmit(onSubmit)}
           />
 
           <RiserButton

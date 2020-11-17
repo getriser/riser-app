@@ -39,7 +39,7 @@ const FolderDetail: React.FC<FolderDetailProps> = ({ navigation, route }) => {
   const folderId = route.params.id;
 
   const {
-    files: { loading, folderToChildren },
+    files: { loading, folderToChildren, foldersById },
     organizations: { currentOrganization },
   } = useSelector((state: RootState) => state);
 
@@ -48,6 +48,7 @@ const FolderDetail: React.FC<FolderDetailProps> = ({ navigation, route }) => {
   }, []);
 
   const files = folderToChildren[folderId];
+  const folder = foldersById[folderId];
 
   const RightComponent = (
     <IconButton
@@ -63,7 +64,7 @@ const FolderDetail: React.FC<FolderDetailProps> = ({ navigation, route }) => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.primary }}>
       <ModalHeader
-        title={'Folder'}
+        title={folder.name}
         backIcon={'chevron-left'}
         RightComponent={
           canAddFilesFolders(currentOrganization!.role) ? RightComponent : null
