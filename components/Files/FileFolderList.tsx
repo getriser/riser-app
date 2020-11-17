@@ -9,6 +9,8 @@ import ActionSheet from 'react-native-actions-sheet';
 import FilesActionSheet from './FilesActionSheet';
 import { RootState } from '../../redux/rootReducer';
 import { useSelector } from 'react-redux';
+import { canAddFilesFolders } from '../../utils/AuthorizationUtils';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 interface FileFolderListProps {
   folderId: number;
@@ -25,9 +27,12 @@ const FileFolderList: React.FC<FileFolderListProps> = ({
   actionSheetRef,
   isRoot = false,
 }) => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<any>>();
 
-  const { folderToChildren } = useSelector((state: RootState) => state.files);
+  const {
+    files: { folderToChildren },
+    organizations: { currentOrganization },
+  } = useSelector((state: RootState) => state);
   const files = folderToChildren[folderId];
 
   return (
@@ -42,7 +47,7 @@ const FileFolderList: React.FC<FileFolderListProps> = ({
           <TouchableOpacity
             onPress={() => {
               if (item.type === FileFolderType.FOLDER) {
-                navigation.navigate('FolderDetail', { id: item.id });
+                navigation.push('FolderDetail', { id: item.id });
               }
             }}>
             <ListItem
@@ -75,18 +80,20 @@ const FileFolderList: React.FC<FileFolderListProps> = ({
           </>
         )}
       />
-      {/* @ts-ignore */}
-      <FAB
-        style={{
-          position: 'absolute',
-          bottom: 50,
-          right: 30,
-          backgroundColor: colors.primary,
-        }}
-        color={colors.white}
-        icon="plus"
-        onPress={() => actionSheetRef.current?.setModalVisible(true)}
-      />
+      {canAddFilesFolders(currentOrganization!.role) && (
+        // @ts-ignore
+        <FAB
+          style={{
+            position: 'absolute',
+            bottom: 50,
+            right: 30,
+            backgroundColor: colors.primary,
+          }}
+          color={colors.white}
+          icon="plus"
+          onPress={() => actionSheetRef.current?.setModalVisible(true)}
+        />
+      )}
       <FilesActionSheet
         actionSheetRef={actionSheetRef}
         folderId={folderId}

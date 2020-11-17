@@ -7,8 +7,6 @@ import PageHeader from '../PageHeader';
 import { RootState } from '../../redux/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import Loading from '../Loading';
-import IconButton from '../IconButton';
-import { canAddFilesFolders } from '../../utils/AuthorizationUtils';
 import { getRootFolderForOrganization } from '../../redux/slices/FilesSlice';
 import FileFolderList from '../Files/FileFolderList';
 
@@ -34,23 +32,9 @@ const FilesIndex: React.FC<FilesIndexProps> = ({ navigation }) => {
   const rootFolderId = organizationIdToRootFolderId[currentOrganization!.id];
   const files = folderToChildren[rootFolderId];
 
-  const RightComponent = (
-    <IconButton
-      onPress={() => {
-        actionSheetRef.current?.setModalVisible(true);
-      }}
-      iconName={'file-plus'}
-    />
-  );
-
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <PageHeader
-        text={'Files'}
-        RightComponent={
-          canAddFilesFolders(currentOrganization!.role) ? RightComponent : null
-        }
-      />
+      <PageHeader text={'Files'} />
       <View style={{ flex: 1 }}>
         {loading && !files ? (
           <Loading />
