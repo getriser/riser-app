@@ -81,3 +81,10 @@ export enum ButtonType {
   DEFAULT,
   PRIMARY,
 }
+
+export interface UploadProgressEvent {
+  isTrusted: boolean;
+  lengthComputable: boolean;
+  loaded: number;
+  total: number;
+}
