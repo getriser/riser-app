@@ -204,6 +204,43 @@ export interface CreateOrganizationResponse {
 /**
  *
  * @export
+ * @interface DownloadFileResponse
+ */
+export interface DownloadFileResponse {
+    /**
+     *
+     * @type {number}
+     * @memberof DownloadFileResponse
+     */
+    id: number;
+    /**
+     *
+     * @type {string}
+     * @memberof DownloadFileResponse
+     */
+    name: string;
+    /**
+     *
+     * @type {FileFolderType}
+     * @memberof DownloadFileResponse
+     */
+    type: FileFolderType;
+    /**
+     *
+     * @type {number}
+     * @memberof DownloadFileResponse
+     */
+    parentFolderId: number;
+    /**
+     *
+     * @type {string}
+     * @memberof DownloadFileResponse
+     */
+    downloadUrl: string;
+}
+/**
+ *
+ * @export
  * @enum {string}
  */
 export enum FileFolderType {
@@ -241,12 +278,6 @@ export interface FileResponse {
      * @memberof FileResponse
      */
     parentFolderId: number;
-    /**
-     *
-     * @type {string}
-     * @memberof FileResponse
-     */
-    fileUrl?: string;
 }
 /**
  *
@@ -1185,6 +1216,49 @@ export const FileControllerApiAxiosParamCreator = function (configuration?: Conf
         /**
          *
          * @param {number} id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        downloadFile: async (id: number, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new RequiredError('id','Required parameter id was null or undefined when calling downloadFile.');
+            }
+            const localVarPath = `/files/{id}/download`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication jwt required
+            if (configuration && configuration.apiKey) {
+                const localVarApiKeyValue = typeof configuration.apiKey === 'function'
+                    ? await configuration.apiKey("x-access-token")
+                    : await configuration.apiKey;
+                localVarHeaderParameter["x-access-token"] = localVarApiKeyValue;
+            }
+
+
+
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         *
+         * @param {number} id
          * @param {UpdateFileFolderRequest} updateFileFolderRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1246,6 +1320,19 @@ export const FileControllerApiFp = function(configuration?: Configuration) {
         /**
          *
          * @param {number} id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async downloadFile(id: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DownloadFileResponse>> {
+            const localVarAxiosArgs = await FileControllerApiAxiosParamCreator(configuration).downloadFile(id, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         *
+         * @param {number} id
          * @param {UpdateFileFolderRequest} updateFileFolderRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1269,6 +1356,15 @@ export const FileControllerApiFactory = function (configuration?: Configuration,
         /**
          *
          * @param {number} id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        downloadFile(id: number, options?: any): AxiosPromise<DownloadFileResponse> {
+            return FileControllerApiFp(configuration).downloadFile(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         *
+         * @param {number} id
          * @param {UpdateFileFolderRequest} updateFileFolderRequest
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1286,6 +1382,17 @@ export const FileControllerApiFactory = function (configuration?: Configuration,
  * @extends {BaseAPI}
  */
 export class FileControllerApi extends BaseAPI {
+    /**
+     *
+     * @param {number} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FileControllerApi
+     */
+    public downloadFile(id: number, options?: any) {
+        return FileControllerApiFp(this.configuration).downloadFile(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      *
      * @param {number} id

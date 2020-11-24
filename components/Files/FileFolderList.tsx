@@ -45,9 +45,11 @@ const FileFolderList: React.FC<FileFolderListProps> = ({
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <TouchableOpacity
-            onPress={() => {
+            onPress={async () => {
               if (item.type === FileFolderType.FOLDER) {
                 navigation.push('FolderDetail', { id: item.id });
+              } else {
+                navigation.navigate('FileDetail', { id: item.id });
               }
             }}>
             <ListItem
@@ -59,11 +61,11 @@ const FileFolderList: React.FC<FileFolderListProps> = ({
                 iconStyle: { color: '#fff' },
                 overlayContainerStyle: {
                   backgroundColor:
-                    item.type == FileFolderType.FILE ? '#000' : colors.primary,
+                    item.type === FileFolderType.FILE ? '#000' : colors.primary,
                 },
               }}
               title={item.name}
-              chevron={item.type === FileFolderType.FOLDER}
+              chevron
             />
           </TouchableOpacity>
         )}

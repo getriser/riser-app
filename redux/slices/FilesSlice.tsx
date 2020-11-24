@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IdMapping } from '../../types';
 import {
   CreateFolderBody,
+  FileControllerApi,
   FileFolderType,
   FileResponse,
   FolderControllerApi,
@@ -95,6 +96,17 @@ const FilesSlice = createSlice({
         folder,
       ];
     },
+
+    updateFileAction(state, action: PayloadAction<FileResponse>) {
+      let file = action.payload;
+      state.filesById[file.id] = file;
+
+      const existingFiles = state.folderToChildren[file.parentFolderId].filter(
+        (f) => f.id !== file.id,
+      );
+
+      state.folderToChildren[file.parentFolderId] = [...existingFiles, file];
+    },
   },
 });
 
@@ -104,6 +116,7 @@ export const {
   appendToFolder,
   setLoading,
   updateFolderAction,
+  updateFileAction,
 } = FilesSlice.actions;
 
 export const getRootFolderForOrganization = (
@@ -182,6 +195,22 @@ export const updateFolder = (
     const response = await api.updateFolder(folderId, data);
 
     dispatch(updateFolderAction(response.data));
+  } catch (e) {
+    Logger.error('Error thrown while trying to fetch root files.');
+  } finally {
+    dispatch(setLoading(false));
+  }
+};
+
+export const updateFile = (
+  fileId: number,
+  data: UpdateFileFolderRequest,
+): AppThunk => async (dispatch) => {
+  try {
+    const api = new FileControllerApi(getConfiguration());
+    const response = await api.updateFile(fileId, data);
+
+    dispatch(updateFileAction(response.data));
   } catch (e) {
     Logger.error('Error thrown while trying to fetch root files.');
   } finally {

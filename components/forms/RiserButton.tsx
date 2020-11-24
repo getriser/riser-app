@@ -24,6 +24,10 @@ const RiserButton: React.FC<RiserButtonProps> = ({
       backgroundColor = colors.primary;
       textColor = colors.white;
       break;
+    case ButtonType.DANGER:
+      backgroundColor = colors.danger;
+      textColor = colors.white;
+      break;
     default:
       backgroundColor = colors.headerBlack;
       textColor = colors.white;

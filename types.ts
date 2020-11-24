@@ -3,8 +3,10 @@ import { AnnouncementResponse } from './api';
 export type FilesParams = {
   FilesIndex: undefined;
   FolderDetail: { id: number };
+  FileDetail: { id: number };
   CreateFolder: { id: number };
   UpdateFolder: { id: number };
+  UpdateFile: { id: number };
 };
 
 export type AnnouncementsParams = {
@@ -80,6 +82,7 @@ export interface DefaultFormFields {
 export enum ButtonType {
   DEFAULT,
   PRIMARY,
+  DANGER,
 }
 
 export interface UploadProgressEvent {
