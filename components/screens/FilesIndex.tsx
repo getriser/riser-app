@@ -45,7 +45,6 @@ const FilesIndex: React.FC<FilesIndexProps> = ({ navigation }) => {
             onRefresh={() =>
               dispatch(getRootFolderForOrganization(currentOrganization!))
             }
-            isRoot
             actionSheetRef={actionSheetRef}
           />
         )}

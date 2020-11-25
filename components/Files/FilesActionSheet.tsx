@@ -14,14 +14,12 @@ import Logger from '../../utils/Logger';
 interface FilesActionSheetProps {
   actionSheetRef: MutableRefObject<ActionSheet | undefined>;
   folderId: number;
-  isRoot: boolean;
   onRefresh(): void;
 }
 
 const FilesActionSheet: React.FC<FilesActionSheetProps> = ({
   actionSheetRef,
   folderId,
-  isRoot,
   onRefresh,
 }) => {
   const navigation = useNavigation();

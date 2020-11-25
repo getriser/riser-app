@@ -25,7 +25,6 @@ const FileFolderList: React.FC<FileFolderListProps> = ({
   isLoading,
   onRefresh,
   actionSheetRef,
-  isRoot = false,
 }) => {
   const navigation = useNavigation<StackNavigationProp<any>>();
 
@@ -99,7 +98,6 @@ const FileFolderList: React.FC<FileFolderListProps> = ({
       <FilesActionSheet
         actionSheetRef={actionSheetRef}
         folderId={folderId}
-        isRoot={isRoot}
         onRefresh={onRefresh}
       />
     </>
