@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, ViewStyle } from 'react-native';
 import { Button } from 'react-native-paper';
 import colors from '../../styles/colors';
 import { ButtonType } from '../../types';
@@ -9,11 +9,13 @@ interface RiserButtonProps {
   text: string;
   onPress(): void;
   buttonType?: ButtonType;
+  style?: ViewStyle;
 }
 
 const RiserButton: React.FC<RiserButtonProps> = ({
   text,
   onPress,
+  style,
   buttonType = ButtonType.DEFAULT,
 }) => {
   let backgroundColor;
@@ -37,7 +39,7 @@ const RiserButton: React.FC<RiserButtonProps> = ({
     // @ts-ignore
     <Button
       theme={{ colors: { primary: backgroundColor } }}
-      style={{ backgroundColor: backgroundColor, marginTop: 10 }}
+      style={[{ backgroundColor: backgroundColor, marginTop: 10 }, style]}
       onPress={onPress}>
       <Text style={[human.body, { color: textColor }]}>{text}</Text>
     </Button>

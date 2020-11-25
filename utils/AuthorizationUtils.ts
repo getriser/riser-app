@@ -11,3 +11,7 @@ export function canAddAnnouncement(role: OrganizationUserRole): boolean {
 export function canAddFilesFolders(role: OrganizationUserRole): boolean {
   return role === OrganizationUserRole.OWNER;
 }
+
+export function canEditFiles(role: OrganizationUserRole): boolean {
+  return role === OrganizationUserRole.OWNER;
+}

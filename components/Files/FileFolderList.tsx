@@ -1,4 +1,4 @@
-import React, { MutableRefObject } from 'react';
+import React, { MutableRefObject, useRef, useState } from 'react';
 import { FlatList, Text, TouchableOpacity } from 'react-native';
 import { FAB } from 'react-native-paper';
 import { FileFolderType } from '../../api';
@@ -6,11 +6,12 @@ import { ListItem } from 'react-native-elements';
 import colors from '../../styles/colors';
 import { useNavigation } from '@react-navigation/native';
 import ActionSheet from 'react-native-actions-sheet';
-import FilesActionSheet from './FilesActionSheet';
+import CreateFolderUploadFileActionSheet from './CreateFolderUploadFileActionSheet';
 import { RootState } from '../../redux/rootReducer';
 import { useSelector } from 'react-redux';
 import { canAddFilesFolders } from '../../utils/AuthorizationUtils';
 import { StackNavigationProp } from '@react-navigation/stack';
+import FileDetailActionSheet from './FileDetailActionSheet';
 
 interface FileFolderListProps {
   folderId: number;
@@ -27,6 +28,10 @@ const FileFolderList: React.FC<FileFolderListProps> = ({
   actionSheetRef,
 }) => {
   const navigation = useNavigation<StackNavigationProp<any>>();
+  const [selectedFileId, setSelectedFileId] = useState<number | undefined>(
+    undefined,
+  );
+  const fileActionSheetRef = useRef<ActionSheet>();
 
   const {
     files: { folderToChildren },
@@ -48,7 +53,8 @@ const FileFolderList: React.FC<FileFolderListProps> = ({
               if (item.type === FileFolderType.FOLDER) {
                 navigation.push('FolderDetail', { id: item.id });
               } else {
-                navigation.navigate('FileDetail', { id: item.id });
+                setSelectedFileId(item.id);
+                fileActionSheetRef.current!.setModalVisible(true);
               }
             }}>
             <ListItem
@@ -95,10 +101,20 @@ const FileFolderList: React.FC<FileFolderListProps> = ({
           onPress={() => actionSheetRef.current?.setModalVisible(true)}
         />
       )}
-      <FilesActionSheet
+
+      <CreateFolderUploadFileActionSheet
         actionSheetRef={actionSheetRef}
         folderId={folderId}
         onRefresh={onRefresh}
+      />
+
+      <FileDetailActionSheet
+        actionSheetRef={fileActionSheetRef}
+        fileId={selectedFileId}
+        onDismiss={() => {
+          fileActionSheetRef.current!.setModalVisible(false);
+          setSelectedFileId(undefined);
+        }}
       />
     </>
   );

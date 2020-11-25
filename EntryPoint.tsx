@@ -23,7 +23,6 @@ import FilesIndex from './components/screens/FilesIndex';
 import CreateFolder from './components/screens/CreateFolder';
 import FolderDetail from './components/screens/FolderDetail';
 import UpdateFolder from './components/screens/UpdateFolder';
-import FileDetail from './components/screens/FileDetail';
 import UpdateFile from './components/screens/UpdateFile';
 
 interface EntryPointProps {}
@@ -81,7 +80,6 @@ function FilesStackScreen() {
     <FilesStack.Navigator screenOptions={{ headerShown: false }}>
       <FilesStack.Screen name={'FilesIndex'} component={FilesIndex} />
       <FilesStack.Screen name={'FolderDetail'} component={FolderDetail} />
-      <FilesStack.Screen name={'FileDetail'} component={FileDetail} />
       <FilesStack.Screen
         name={'CreateFolder'}
         component={CreateFolder}
