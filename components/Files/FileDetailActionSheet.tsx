@@ -3,14 +3,14 @@ import ActionSheet from 'react-native-actions-sheet';
 import { Linking, View, Text } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { RootState } from '../../redux/rootReducer';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FileControllerApi } from '../../api';
 import { getConfiguration } from '../../utils/ApiUtils';
 import { useNavigation } from '@react-navigation/native';
 import { canEditFiles } from '../../utils/AuthorizationUtils';
 import colors from '../../styles/colors';
 import ActionSheetDeleteConfirmation from '../ActionSheet/ActionSheetDeleteConfirmation';
-import Logger from '../../utils/Logger';
+import { deleteFile } from '../../redux/slices/FilesSlice';
 
 interface FileDetailActionSheetProps {
   actionSheetRef: MutableRefObject<ActionSheet | undefined>;
@@ -23,6 +23,7 @@ const FileDetailActionSheet: React.FC<FileDetailActionSheetProps> = ({
   fileId,
   onDismiss,
 }) => {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const [inDeleteMode, setInDeleteMode] = useState<boolean>(false);
   const {
@@ -42,7 +43,11 @@ const FileDetailActionSheet: React.FC<FileDetailActionSheetProps> = ({
         {inDeleteMode ? (
           <ActionSheetDeleteConfirmation
             onCancel={() => setInDeleteMode(false)}
-            onConfirm={() => Logger.debug('delete')}
+            onConfirm={async () => {
+              await dispatch(deleteFile(fileId!));
+              setInDeleteMode(false);
+              onDismiss();
+            }}
           />
         ) : (
           <>

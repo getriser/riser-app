@@ -107,6 +107,16 @@ const FilesSlice = createSlice({
 
       state.folderToChildren[file.parentFolderId] = [...existingFiles, file];
     },
+
+    removeFile(state, action: PayloadAction<number>) {
+      const file = state.filesById[action.payload];
+
+      state.folderToChildren[file.parentFolderId] = state.folderToChildren[
+        file.parentFolderId
+      ].filter((f) => f.id !== file.id);
+
+      delete state.filesById[action.payload];
+    },
   },
 });
 
@@ -117,6 +127,7 @@ export const {
   setLoading,
   updateFolderAction,
   updateFileAction,
+  removeFile,
 } = FilesSlice.actions;
 
 export const getRootFolderForOrganization = (
@@ -211,6 +222,21 @@ export const updateFile = (
     const response = await api.updateFile(fileId, data);
 
     dispatch(updateFileAction(response.data));
+  } catch (e) {
+    Logger.error('Error thrown while trying to fetch root files.');
+  } finally {
+    dispatch(setLoading(false));
+  }
+};
+
+export const deleteFile = (fileId: number): AppThunk => async (dispatch) => {
+  dispatch(setLoading(true));
+
+  try {
+    const api = new FileControllerApi(getConfiguration());
+    await api.deleteFile(fileId);
+
+    dispatch(removeFile(fileId));
   } catch (e) {
     Logger.error('Error thrown while trying to fetch root files.');
   } finally {
