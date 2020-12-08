@@ -36,8 +36,12 @@ const FileDetailActionSheet: React.FC<FileDetailActionSheetProps> = ({
   const minHeight = canEditFiles(currentOrganization!.role) ? 250 : 125;
 
   return (
-    // @ts-ignore
-    <ActionSheet headerAlwaysVisible gestureEnabled ref={actionSheetRef}>
+    <ActionSheet
+      headerAlwaysVisible
+      gestureEnabled
+      // @ts-ignore
+      ref={actionSheetRef}
+      onClose={() => setInDeleteMode(false)}>
       <View style={{ paddingVertical: 10, minHeight }}>
         <Text style={{ textAlign: 'center' }}>{fileName}</Text>
         {inDeleteMode ? (

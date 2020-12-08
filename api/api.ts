@@ -1542,6 +1542,49 @@ export const FolderControllerApiAxiosParamCreator = function (configuration?: Co
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        deleteFolder: async (id: number, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new RequiredError('id','Required parameter id was null or undefined when calling deleteFolder.');
+            }
+            const localVarPath = `/folders/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication jwt required
+            if (configuration && configuration.apiKey) {
+                const localVarApiKeyValue = typeof configuration.apiKey === 'function'
+                    ? await configuration.apiKey("x-access-token")
+                    : await configuration.apiKey;
+                localVarHeaderParameter["x-access-token"] = localVarApiKeyValue;
+            }
+
+
+
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         *
+         * @param {number} id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         getFilesFromFolder: async (id: number, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             if (id === null || id === undefined) {
@@ -1711,6 +1754,19 @@ export const FolderControllerApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        async deleteFolder(id: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SuccessMessage>> {
+            const localVarAxiosArgs = await FolderControllerApiAxiosParamCreator(configuration).deleteFolder(id, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         *
+         * @param {number} id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         async getFilesFromFolder(id: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FileResponse>>> {
             const localVarAxiosArgs = await FolderControllerApiAxiosParamCreator(configuration).getFilesFromFolder(id, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
@@ -1770,6 +1826,15 @@ export const FolderControllerApiFactory = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        deleteFolder(id: number, options?: any): AxiosPromise<SuccessMessage> {
+            return FolderControllerApiFp(configuration).deleteFolder(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         *
+         * @param {number} id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         getFilesFromFolder(id: number, options?: any): AxiosPromise<Array<FileResponse>> {
             return FolderControllerApiFp(configuration).getFilesFromFolder(id, options).then((request) => request(axios, basePath));
         },
@@ -1812,6 +1877,17 @@ export class FolderControllerApi extends BaseAPI {
      */
     public createFolder(createFolderBody: CreateFolderBody, options?: any) {
         return FolderControllerApiFp(this.configuration).createFolder(createFolderBody, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     *
+     * @param {number} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FolderControllerApi
+     */
+    public deleteFolder(id: number, options?: any) {
+        return FolderControllerApiFp(this.configuration).deleteFolder(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

@@ -13,6 +13,7 @@ import ModalHeader from '../ModalHeader';
 import colors from '../../styles/colors';
 import FileFolderList from '../Files/FileFolderList';
 import ActionSheet from 'react-native-actions-sheet';
+import FolderEditActionSheet from '../Files/FolderEditActionSheet';
 
 type FolderDetailNavigationProps = StackNavigationProp<
   FilesParams,
@@ -29,6 +30,7 @@ interface FolderDetailProps {
 const FolderDetail: React.FC<FolderDetailProps> = ({ navigation, route }) => {
   const dispatch = useDispatch();
   const actionSheetRef = useRef<ActionSheet>();
+  const editActionSheetRef = useRef<ActionSheet>();
 
   const folderId = route.params.id;
 
@@ -41,13 +43,15 @@ const FolderDetail: React.FC<FolderDetailProps> = ({ navigation, route }) => {
     dispatch(getFilesForFolder(folderId));
   }, []);
 
-  const files = folderToChildren[folderId];
-  const folder = foldersById[folderId];
+  // Need to give defaults because if you delete
+  // the folder, these will return null.
+  const files = folderToChildren[folderId] || [];
+  const folder = foldersById[folderId] || {};
 
   const RightComponent = (
     <IconButton
       containerStyle={{ padding: undefined }}
-      onPress={() => navigation.navigate('UpdateFolder', { id: folderId })}
+      onPress={() => editActionSheetRef.current?.setModalVisible(true)}
       iconName={'edit'}
     />
   );
@@ -73,6 +77,17 @@ const FolderDetail: React.FC<FolderDetailProps> = ({ navigation, route }) => {
           />
         )}
       </View>
+
+      <FolderEditActionSheet
+        folderId={folder.id}
+        actionSheetRef={editActionSheetRef}
+        onDismiss={() => {
+          editActionSheetRef.current?.setModalVisible(false);
+        }}
+        onDelete={() => {
+          navigation.goBack();
+        }}
+      />
     </SafeAreaView>
   );
 };
