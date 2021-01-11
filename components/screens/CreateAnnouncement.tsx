@@ -80,9 +80,8 @@ const CreateAnnouncement: React.FC<CreateAnnouncementProps> = ({
         organizationId: currentOrganization!.id,
       });
 
-      // await api.inviteMember(currentOrganization!.id, data);
-      // dispatch(fetchMembers(currentOrganization!.id));
-      // navigation.goBack();
+      dispatch(fetchAnnouncements(currentOrganization!.id));
+      navigation.goBack();
     } catch (e) {
       Logger.error('Error thrown while logging in:', e);
       setError('apiError', { message: e.response.data.message });

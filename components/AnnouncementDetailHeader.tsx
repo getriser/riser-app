@@ -17,14 +17,16 @@ const AnnouncementDetailHeader: React.FC<AnnouncementDetailHeaderProps> = ({
     <View
       style={{
         marginHorizontal: 40,
-      }}>
+      }}
+    >
       <Text
         style={{
           color: colors.white,
           fontFamily: fonts.default,
           fontWeight: '600',
           fontSize: 33,
-        }}>
+        }}
+      >
         {announcement.title}
       </Text>
       <View style={{ flexDirection: 'row', marginTop: 10 }}>

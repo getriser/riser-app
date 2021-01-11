@@ -8,6 +8,8 @@ import { human } from 'react-native-typography';
 interface RiserButtonProps {
   text: string;
   onPress(): void;
+  loading?: boolean;
+  loadingText?: string;
   buttonType?: ButtonType;
   style?: ViewStyle;
 }
@@ -17,6 +19,8 @@ const RiserButton: React.FC<RiserButtonProps> = ({
   onPress,
   style,
   buttonType = ButtonType.DEFAULT,
+  loading = false,
+  loadingText = 'Loading...',
 }) => {
   let backgroundColor;
   let textColor;
@@ -39,9 +43,20 @@ const RiserButton: React.FC<RiserButtonProps> = ({
     // @ts-ignore
     <Button
       theme={{ colors: { primary: backgroundColor } }}
-      style={[{ backgroundColor: backgroundColor, marginTop: 10 }, style]}
-      onPress={onPress}>
-      <Text style={[human.body, { color: textColor }]}>{text}</Text>
+      style={[
+        {
+          backgroundColor: backgroundColor,
+          marginTop: 10,
+          opacity: loading ? 0.8 : 1,
+        },
+        style,
+      ]}
+      disabled={loading}
+      onPress={onPress}
+    >
+      <Text style={[human.body, { color: textColor }]}>
+        {loading ? loadingText : text}
+      </Text>
     </Button>
   );
 };

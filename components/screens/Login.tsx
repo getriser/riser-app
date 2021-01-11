@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, SafeAreaView } from 'react-native';
 import PageHeader from '../PageHeader';
 import { useForm } from 'react-hook-form';
@@ -30,6 +30,7 @@ const schema = yup.object().shape({
 
 const Login: React.FC<LoginProps> = ({}) => {
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { handleSubmit, control, errors, setError, clearErrors } = useForm<
     LoginFormFields
@@ -39,6 +40,7 @@ const Login: React.FC<LoginProps> = ({}) => {
 
   const onSubmit = async (data: LoginFormFields) => {
     clearErrors();
+    setIsLoading(true);
 
     const api = new AuthControllerApi(getConfiguration());
 
@@ -49,6 +51,8 @@ const Login: React.FC<LoginProps> = ({}) => {
     } catch (e) {
       Logger.error('Error thrown while logging in:', e);
       setError('apiError', { message: e.response.data.message });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -80,7 +84,11 @@ const Login: React.FC<LoginProps> = ({}) => {
           secureTextEntry
         />
 
-        <RiserButton text="Log In" onPress={handleSubmit(onSubmit)} />
+        <RiserButton
+          text="Log In"
+          loading={isLoading}
+          onPress={handleSubmit(onSubmit)}
+        />
       </View>
     </SafeAreaView>
   );

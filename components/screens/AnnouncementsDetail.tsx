@@ -99,7 +99,8 @@ const AnnouncementsDetail: React.FC<AnnouncementsDetailProps> = ({
           <SafeAreaView
             style={{
               backgroundColor: colors.primary,
-            }}>
+            }}
+          >
             <ModalHeader title={announcement.title} backIcon={'chevron-left'} />
           </SafeAreaView>
         )}
@@ -107,12 +108,14 @@ const AnnouncementsDetail: React.FC<AnnouncementsDetailProps> = ({
           <View
             style={{
               backgroundColor: colors.primary,
-            }}>
+            }}
+          >
             <SafeAreaView
               style={{
                 position: 'relative',
                 top: 30,
-              }}>
+              }}
+            >
               <BackButton />
 
               <View>
@@ -120,33 +123,39 @@ const AnnouncementsDetail: React.FC<AnnouncementsDetailProps> = ({
                   style={{
                     backgroundColor: colors.primary,
                     paddingBottom: 70,
-                  }}>
+                  }}
+                >
                   <AnnouncementDetailHeader announcement={announcement} />
                 </View>
               </View>
             </SafeAreaView>
           </View>
-        )}>
+        )}
+      >
         <View
           style={{
             position: 'relative',
-            top: -70,
+            // TODO: Re-enable when you figure out how to do this correctly.
+            // top: -70,
             borderTopRightRadius: 40,
             borderTopLeftRadius: 40,
             backgroundColor: '#fff',
             flex: 1,
-          }}>
+          }}
+        >
           <View
             style={{
               paddingHorizontal: 40,
-            }}>
+            }}
+          >
             <View
               style={{
                 marginTop: 40,
                 paddingBottom: 20,
                 borderBottomWidth: 1,
                 borderBottomColor: '#eaeaea',
-              }}>
+              }}
+            >
               <Text>{announcement.content}</Text>
             </View>
             <View style={{ flexDirection: 'row' }}>

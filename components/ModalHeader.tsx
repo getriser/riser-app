@@ -25,7 +25,8 @@ const ModalHeader: React.FC<ModalHeaderProps> = ({
         backgroundColor: colors.primary,
         padding: 15,
         alignItems: 'center',
-      }}>
+      }}
+    >
       <View>
         <Icon
           name={backIcon}
@@ -35,7 +36,12 @@ const ModalHeader: React.FC<ModalHeaderProps> = ({
         />
       </View>
       <View>
-        <Text style={{ fontSize: 18, color: colors.white }}>{title}</Text>
+        <Text
+          style={{ fontSize: 18, color: colors.white, width: '75%' }}
+          numberOfLines={1}
+        >
+          {title}
+        </Text>
       </View>
       <View>{RightComponent}</View>
     </View>

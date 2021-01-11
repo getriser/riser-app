@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import {
-  View,
-  Text,
   FlatList,
-  SafeAreaView,
   RefreshControl,
+  SafeAreaView,
+  Text,
   TouchableOpacity,
+  View,
 } from 'react-native';
 import PageHeader from '../PageHeader';
 import { useDispatch, useSelector } from 'react-redux';
@@ -52,8 +52,21 @@ const ChooseOrganization: React.FC<ChooseOrganizationProps> = ({}) => {
             </TouchableOpacity>
           )}
           ListEmptyComponent={
-            <View>
+            <View
+              style={{
+                flex: 1,
+                marginTop: 50,
+                alignItems: 'center',
+              }}
+            >
               <Text>You have no organizations.</Text>
+
+              {/*<RiserButton*/}
+              {/*  style={{ marginTop: 50 }}*/}
+              {/*  text={'+ Create New Organization'}*/}
+              {/*  buttonType={ButtonType.PRIMARY}*/}
+              {/*  onPress={() => {}}*/}
+              {/*/>*/}
             </View>
           }
           ListHeaderComponent={<>{loading && <Loading />}</>}
